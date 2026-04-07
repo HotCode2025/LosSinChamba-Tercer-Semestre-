@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+
+  <!-- Computadora -->
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>80</y>
+      <w>300</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>«Computadora»
+--
+idComputadora: number
+nombre: string
+monitor: Monitor
+teclado: Teclado
+raton: Raton
+contadorComputadoras: number
+--
+toString(): string
+--
+Responsabilidades:
+--Crear objetos de tipo Monitor</panel_attributes>
+    <additional_attributes/>
+  </element>
+
+  <!-- Orden -->
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>530</x>
+      <y>80</y>
+      <w>330</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>«Orden»
+--
+_idOrden: number
+_computadoras: Computadora[]
+contadorOrdenes: number
+--
+agregarComputadora(computadora)
+mostrarOrden()
+--
+Responsabilidades:
+--Crear objetos de tipo Orden
+y almacenar un arreglo de
+objetos de tipo Computadora</panel_attributes>
+    <additional_attributes/>
+  </element>
+
+  <!-- Relacion agregacion Computadora -> Orden (agregacion) -->
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>150</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+«agregar»</panel_attributes>
+    <additional_attributes>10.0;20.0;140.0;20.0</additional_attributes>
+  </element>
+
+  <!-- Monitor -->
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>420</y>
+      <w>290</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>«Monitor»
+--
+idMonitor: number
+marca: string
+tamanio: string
+contadorMonitores: number
+--
+agregar el método get solo idMonitor
+toString()
+--
+Responsabilidades:
+--Crear objetos de tipo Monitor</panel_attributes>
+    <additional_attributes/>
+  </element>
+
+  <!-- Relacion agregacion Computadora -> Monitor (agregacion) -->
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>200</x>
+      <y>290</y>
+      <w>60</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+«agregar»</panel_attributes>
+    <additional_attributes>20.0;10.0;20.0;130.0</additional_attributes>
+  </element>
+
+  <!-- DispositivoEntrada -->
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>330</y>
+      <w>340</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>DispositivoEntrada
+--
+tipoEntrada: string
+marca: string
+--
+(agregar los métodos get/set de cada atributo)
+--
+Responsabilidades:
+--Crear objetos de tipo DispositivoEntrada</panel_attributes>
+    <additional_attributes/>
+  </element>
+
+  <!-- Relacion agregacion Computadora -> DispositivoEntrada -->
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>300</x>
+      <y>200</y>
+      <w>200</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+«agregar»</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0;180.0;180.0</additional_attributes>
+  </element>
+
+  <!-- Raton -->
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>590</y>
+      <w>240</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>Raton
+--
+idRaton: number
+contadorRatones: number
+--
+toString()
+--
+Responsabilidades:
+--Crear objetos de tipo Raton</panel_attributes>
+    <additional_attributes/>
+  </element>
+
+  <!-- Teclado -->
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>660</x>
+      <y>590</y>
+      <w>240</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>Teclado
+--
+-idTeclado: number
+contadorTeclado: number
+--
+toString()
+--
+Responsabilidades:
+--Crear objetos de tipo Teclado</panel_attributes>
+    <additional_attributes/>
+  </element>
+
+  <!-- Herencia DispositivoEntrada -> Raton -->
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>480</x>
+      <y>510</y>
+      <w>100</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>50.0;80.0;50.0;10.0</additional_attributes>
+  </element>
+
+  <!-- Herencia DispositivoEntrada -> Teclado -->
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>620</x>
+      <y>510</y>
+      <w>150</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>120.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+
+</diagram>
