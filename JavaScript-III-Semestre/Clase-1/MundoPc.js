@@ -62,7 +62,7 @@ class Teclado extends DispositivoEntrada {
     }
 
     static get contadorTeclados() {
-        return Teclado._contadorTeclados;
+        return Teclado.contadorTeclados;
     }
 
     toString() {
