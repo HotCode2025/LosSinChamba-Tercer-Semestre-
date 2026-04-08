@@ -1,26 +1,26 @@
 class DispositivoEntrada {
-    #tipoEntrada;
-    #marca;
+    _tipoEntrada;
+    _marca;
 
     constructor(tipoEntrada, marca) {
-        this.#tipoEntrada = tipoEntrada;
-        this.#marca = marca;
+        this._tipoEntrada = tipoEntrada;
+        this._marca = marca;
     }
 
     get tipoEntrada() {
-        return this.#tipoEntrada;
+        return this._tipoEntrada;
     }
 
     set tipoEntrada(tipoEntrada) {
-        this.#tipoEntrada = tipoEntrada;
+        this._tipoEntrada = tipoEntrada;
     }
 
     get marca() {
-        return this.#marca;
+        return this._marca;
     }
 
     set marca(marca) {
-        this.#marca = marca;
+        this._marca = marca;
     }
 }
 
