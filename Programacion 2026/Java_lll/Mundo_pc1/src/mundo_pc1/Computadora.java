@@ -9,12 +9,10 @@ public class Computadora {
     private Raton raton;
     private static int contadorComputadoras;
 
-    // Constructor vacío
     private Computadora() {
         this.idComputadora = ++Computadora.contadorComputadoras;
     }
 
-    // Constructor 2
     public Computadora(String nombre, Monitor monitor, Teclado teclado, Raton raton) {
         this();
         this.nombre = nombre;
@@ -23,7 +21,6 @@ public class Computadora {
         this.raton = raton;
     }
 
-    // Getter y Setter de nombre
     public String getNombre() {
         return nombre;
     }
@@ -32,7 +29,6 @@ public class Computadora {
         this.nombre = nombre;
     }
 
-    // Getter y Setter de monitor
     public Monitor getMonitor() {
         return monitor;
     }
@@ -41,7 +37,6 @@ public class Computadora {
         this.monitor = monitor;
     }
 
-    // Getter y Setter de teclado
     public Teclado getTeclado() {
         return teclado;
     }
@@ -50,7 +45,6 @@ public class Computadora {
         this.teclado = teclado;
     }
 
-    // Getter y Setter de raton
     public Raton getRaton() {
         return raton;
     }

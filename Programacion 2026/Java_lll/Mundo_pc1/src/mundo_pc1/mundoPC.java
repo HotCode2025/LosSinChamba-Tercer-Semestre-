@@ -12,62 +12,44 @@ public class mundoPC {
         Raton ratonHP = new Raton("Bluetooth", "HP");
         Computadora computadoraHP = new Computadora("Computadora HP", monitorHP, tecladoHP, ratonHP);
 
-        // Creamos otros objetos de diferente marca
+        // Objetos Gamer
         Monitor monitorGamer = new Monitor("Gamer", 32);
         Teclado tecladoGamer = new Teclado("Bluetooth", "Gamer");
         Raton ratonGamer = new Raton("Bluetooth", "Gamer");
         Computadora computadoraGamer = new Computadora("Computadora Gamer", monitorGamer, tecladoGamer, ratonGamer);
 
-        Orden orden1 = new Orden(); // Inicializamos el arreglo vacío
-        Orden orden2 = new Orden(); // Una nueva lista para el objeto orden2
-
-        orden1.agregarComputadora(computadoraHP);
-        orden1.agregarComputadora(computadoraGamer);
-
-        // Crear mas objetos de tipo computadora con todos sus elementos
-        // completar una lista en el objeto orden1 que llegue a los 10 elementos
-        // probar de esta manera los métodos al maximo rendimiento
+        // Computadoras para completar orden1 hasta 10
         Computadora computadora3 = new Computadora("Computadora Dell",
-                new Monitor("Dell", 24),
-                new Teclado("USB", "Dell"),
-                new Raton("USB", "Dell"));
+                new Monitor("Dell", 24), new Teclado("USB", "Dell"), new Raton("USB", "Dell"));
 
         Computadora computadora4 = new Computadora("Computadora Lenovo",
-                new Monitor("Lenovo", 27),
-                new Teclado("Bluetooth", "Lenovo"),
-                new Raton("Bluetooth", "Lenovo"));
+                new Monitor("Lenovo", 27), new Teclado("Bluetooth", "Lenovo"), new Raton("Bluetooth", "Lenovo"));
 
         Computadora computadora5 = new Computadora("Computadora Asus",
-                new Monitor("Asus", 29),
-                new Teclado("USB", "Asus"),
-                new Raton("USB", "Asus"));
+                new Monitor("Asus", 29), new Teclado("USB", "Asus"), new Raton("USB", "Asus"));
 
         Computadora computadora6 = new Computadora("Computadora Acer",
-                new Monitor("Acer", 21),
-                new Teclado("Bluetooth", "Acer"),
-                new Raton("Bluetooth", "Acer"));
+                new Monitor("Acer", 21), new Teclado("Bluetooth", "Acer"), new Raton("Bluetooth", "Acer"));
 
         Computadora computadora7 = new Computadora("Computadora Samsung",
-                new Monitor("Samsung", 32),
-                new Teclado("USB", "Samsung"),
-                new Raton("USB", "Samsung"));
+                new Monitor("Samsung", 32), new Teclado("USB", "Samsung"), new Raton("USB", "Samsung"));
 
         Computadora computadora8 = new Computadora("Computadora MSI",
-                new Monitor("MSI", 27),
-                new Teclado("Bluetooth", "MSI"),
-                new Raton("Bluetooth", "MSI"));
+                new Monitor("MSI", 27), new Teclado("Bluetooth", "MSI"), new Raton("Bluetooth", "MSI"));
 
         Computadora computadora9 = new Computadora("Computadora Apple",
-                new Monitor("Apple", 24),
-                new Teclado("Bluetooth", "Apple"),
-                new Raton("Bluetooth", "Apple"));
+                new Monitor("Apple", 24), new Teclado("Bluetooth", "Apple"), new Raton("Bluetooth", "Apple"));
 
         Computadora computadora10 = new Computadora("Computadora Logitech",
-                new Monitor("Logitech", 19),
-                new Teclado("USB", "Logitech"),
-                new Raton("USB", "Logitech"));
+                new Monitor("Logitech", 19), new Teclado("USB", "Logitech"), new Raton("USB", "Logitech"));
 
-        // Agregamos las 8 computadoras restantes a orden1 (total 10)
+        // Inicializamos ordenes
+        Orden orden1 = new Orden();
+        Orden orden2 = new Orden();
+
+        // Agregamos 10 computadoras a orden1
+        orden1.agregarComputadora(computadoraHP);
+        orden1.agregarComputadora(computadoraGamer);
         orden1.agregarComputadora(computadora3);
         orden1.agregarComputadora(computadora4);
         orden1.agregarComputadora(computadora5);
@@ -77,11 +59,9 @@ public class mundoPC {
         orden1.agregarComputadora(computadora9);
         orden1.agregarComputadora(computadora10);
 
-        // Agregamos una computadora a orden2
+        // Computadora para orden2
         Computadora computadorasVarias = new Computadora("Computadora de diferentes marcas",
-                new Monitor("Dell", 27),
-                new Teclado("USB", "Logitech"),
-                new Raton("USB", "Logitech"));
+                new Monitor("Dell", 27), new Teclado("USB", "Logitech"), new Raton("USB", "Logitech"));
         orden2.agregarComputadora(computadorasVarias);
 
         orden1.mostrarOrden();
