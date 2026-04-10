@@ -53,4 +53,17 @@ public class Computadora {
         this.raton = raton;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Computadora{");
+        sb.append("idComputadora=").append(idComputadora);
+        sb.append(", nombre=").append(nombre);
+        sb.append(", monitor=").append(monitor);
+        sb.append(", teclado=").append(teclado);
+        sb.append(", raton=").append(raton);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }
