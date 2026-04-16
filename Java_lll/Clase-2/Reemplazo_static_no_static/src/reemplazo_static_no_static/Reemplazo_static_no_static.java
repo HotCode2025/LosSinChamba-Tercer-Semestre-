@@ -45,7 +45,7 @@ class Reemplazo_static_no_static {
 // ============================================================
 // VERSIÓN REEMPLAZADA — sin bloques de inicialización
 // ============================================================
-public class Reemplazo_static_no_static.java {
+public class Reemplazo_static_no_static {
 
     private final int idPersona;
 
