@@ -12,7 +12,7 @@ package domain;
 // ============================================================
 // VERSIÓN ORIGINAL — con bloques de inicialización
 // ============================================================
-class PersonaConBloques {
+class Reemplazo_static_no_static.java {
 
     private final int idPersona;
     private static int contadorPersonas;
@@ -45,7 +45,7 @@ class PersonaConBloques {
 // ============================================================
 // VERSIÓN REEMPLAZADA — sin bloques de inicialización
 // ============================================================
-public class PersonaSinBloques {
+public class Reemplazo_static_no_static.java {
 
     private final int idPersona;
 
