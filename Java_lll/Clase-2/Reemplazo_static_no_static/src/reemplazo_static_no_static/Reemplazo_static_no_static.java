@@ -12,7 +12,7 @@ package domain;
 // ============================================================
 // VERSIÓN ORIGINAL — con bloques de inicialización
 // ============================================================
-class Reemplazo_static_no_static.java {
+class Reemplazo_static_no_static {
 
     private final int idPersona;
     private static int contadorPersonas;
