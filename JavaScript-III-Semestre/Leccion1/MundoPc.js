@@ -1,3 +1,12 @@
+/*Al aplicar polimorfismo, la clase Orden se vuelve agnóstica respecto a los detalles 
+internos de cada componente. Es decir, a la clase Orden no le importa si está manejando un 
+ratón, un teclado o un monitor; simplemente sabe que puede invocar el método (en nuestro caso 
+conectar() o el mismo toString()) sobre el objeto Computadora, y este a su vez invocará 
+el mismo método en sus dispositivos. Cada dispositivo responderá a su manera (múltiples formas
+ = polimorfismo). Esto hace que la clase Orden sea más limpia, fácil de mantener y extensible,
+ya que si en el futuro agregamos un componente nuevo (como unos Auriculares), no tendremos 
+que modificar el código de la clase Orden en absoluto. */
+
 class DispositivoEntrada {
     _tipoEntrada;
     _marca;
@@ -7,20 +16,15 @@ class DispositivoEntrada {
         this._marca = marca;
     }
 
-    get tipoEntrada() {
-        return this._tipoEntrada;
-    }
+    get tipoEntrada() { return this._tipoEntrada; }
+    set tipoEntrada(tipoEntrada) { this._tipoEntrada = tipoEntrada; }
 
-    set tipoEntrada(tipoEntrada) {
-        this._tipoEntrada = tipoEntrada;
-    }
+    get marca() { return this._marca; }
+    set marca(marca) { this._marca = marca; }
 
-    get marca() {
-        return this._marca;
-    }
-
-    set marca(marca) {
-        this._marca = marca;
+    // POLIMORFISMO: Método padre que será sobrescrito
+    conectar() {
+        return "Conectando dispositivo de entrada...";
     }
 }
 
@@ -34,12 +38,12 @@ class Raton extends DispositivoEntrada {
         this._idRaton = Raton.contadorRatones;
     }
 
-    get idRaton() {
-        return this._idRaton;
-    }
+    get idRaton() { return this._idRaton; }
+    static get contadorRatones() { return Raton.contadorRatones; }
 
-    static get contadorRatones() {
-        return Raton.contadorRatones;
+    // POLIMORFISMO: El Ratón tiene su propia forma de "conectar"
+    conectar() {
+        return `🖱️ Ratón ${this.marca} conectado vía ${this.tipoEntrada}.`;
     }
 
     toString() {
@@ -57,12 +61,12 @@ class Teclado extends DispositivoEntrada {
         this._idTeclado = Teclado.contadorTeclados;
     }
 
-    get idTeclado() {
-        return this._idTeclado;
-    }
+    get idTeclado() { return this._idTeclado; }
+    static get contadorTeclados() { return Teclado.contadorTeclados; }
 
-    static get contadorTeclados() {
-        return Teclado.contadorTeclados;
+    // POLIMORFISMO: El Teclado tiene su propia forma de "conectar"
+    conectar() {
+        return `⌨️ Teclado ${this.marca} listo para escribir.`;
     }
 
     toString() {
@@ -83,28 +87,16 @@ class Monitor {
         this._tamano = tamano;
     }
 
-    get idMonitor() {
-        return this._idMonitor;
-    }
+    get idMonitor() { return this._idMonitor; }
+    get marca() { return this._marca; }
+    set marca(marca) { this._marca = marca; }
+    get tamano() { return this._tamano; }
+    set tamano(tamano) { this._tamano = tamano; }
+    static get contadorMonitores() { return Monitor.contadorMonitores; }
 
-    get marca() {
-        return this._marca;
-    }
-
-    set marca(marca) {
-        this._marca = marca;
-    }
-
-    get tamano() {
-        return this._tamano;
-    }
-
-    set tamano(tamano) {
-        this._tamano = tamano;
-    }
-
-    static get contadorMonitores() {
-        return Monitor.contadorMonitores;
+    // POLIMORFISMO: El Monitor tiene su propia forma de "conectar"
+    conectar() {
+        return `🖥️ Monitor ${this._marca} de ${this._tamano} encendiendo pantalla...`;
     }
 
     toString() {
@@ -129,44 +121,24 @@ class Computadora {
         this._raton = raton;
     }
 
-    get idComputadora() {
-        return this._idComputadora;
-    }
+    get idComputadora() { return this._idComputadora; }
+    get nombre() { return this._nombre; }
+    set nombre(nombre) { this._nombre = nombre; }
+    get monitor() { return this._monitor; }
+    set monitor(monitor) { this._monitor = monitor; }
+    get teclado() { return this._teclado; }
+    set teclado(teclado) { this._teclado = teclado; }
+    get raton() { return this._raton; }
+    set raton(raton) { this._raton = raton; }
+    static get contadorComputadoras() { return Computadora.contadorComputadoras; }
 
-    get nombre() {
-        return this._nombre;
-    }
-
-    set nombre(nombre) {
-        this._nombre = nombre;
-    }
-
-    get monitor() {
-        return this._monitor;
-    }
-
-    set monitor(monitor) {
-        this._monitor = monitor;
-    }
-
-    get teclado() {
-        return this._teclado;
-    }
-
-    set teclado(teclado) {
-        this._teclado = teclado;
-    }
-
-    get raton() {
-        return this._raton;
-    }
-
-    set raton(raton) {
-        this._raton = raton;
-    }
-
-    static get contadorComputadoras() {
-        return Computadora.contadorComputadoras;
+    // POLIMORFISMO: La computadora llama al mismo método "conectar" de sus componentes
+    // sin importar qué dispositivo exacto sea.
+    conectar() {
+        return `Iniciando arranque de ${this._nombre}:\n` +
+               `  -> ${this._monitor.conectar()}\n` +
+               `  -> ${this._teclado.conectar()}\n` +
+               `  -> ${this._raton.conectar()}`;
     }
 
     toString() {
@@ -188,17 +160,9 @@ class Orden {
         this._computadoras = [];
     }
 
-    get idOrden() {
-        return this._idOrden;
-    }
-
-    get computadoras() {
-        return [...this._computadoras];
-    }
-
-    static get contadorOrdenes() {
-        return Orden.contadorOrdenes;
-    }
+    get idOrden() { return this._idOrden; }
+    get computadoras() { return [...this._computadoras]; }
+    static get contadorOrdenes() { return Orden.contadorOrdenes; }
 
     agregarComputadora(computadora) {
         if (computadora instanceof Computadora) {
@@ -217,7 +181,12 @@ class Orden {
         } else {
             this._computadoras.forEach((computadora, index) => {
                 console.log(`\n--- Computadora ${index + 1} ---`);
+                // Aquí usamos el toString general
                 console.log(computadora.toString());
+                console.log("\n--- Prueba de Conexión (Polimorfismo) ---");
+                // POLIMORFISMO EN ACCIÓN: La Orden solo llama a "conectar()" de computadora,
+                // la orden no necesita saber cómo se conecta cada pieza internamente.
+                console.log(computadora.conectar());
             });
         }
         console.log("==========================================\n");
@@ -260,3 +229,4 @@ console.log(`Teclados creados: ${Teclado.contadorTeclados}`);
 console.log(`Ratones creados: ${Raton.contadorRatones}`);
 console.log(`Computadoras creadas: ${Computadora.contadorComputadoras}`);
 console.log(`Órdenes creadas: ${Orden.contadorOrdenes}`);
+
