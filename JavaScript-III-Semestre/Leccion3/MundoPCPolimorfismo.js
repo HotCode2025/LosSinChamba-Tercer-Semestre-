@@ -43,7 +43,7 @@ class Raton extends DispositivoEntrada {
 
     // POLIMORFISMO: El Ratón tiene su propia forma de "conectar"
     conectar() {
-        return `🖱️ Ratón ${this.marca} conectado vía ${this.tipoEntrada}.`;
+        return ` Ratón ${this.marca} conectado vía ${this.tipoEntrada}.`;
     }
 
     toString() {
@@ -66,7 +66,7 @@ class Teclado extends DispositivoEntrada {
 
     // POLIMORFISMO: El Teclado tiene su propia forma de "conectar"
     conectar() {
-        return `⌨️ Teclado ${this.marca} listo para escribir.`;
+        return `Teclado ${this.marca} listo para escribir.`;
     }
 
     toString() {
@@ -96,7 +96,7 @@ class Monitor {
 
     // POLIMORFISMO: El Monitor tiene su propia forma de "conectar"
     conectar() {
-        return `🖥️ Monitor ${this._marca} de ${this._tamano} encendiendo pantalla...`;
+        return `Monitor ${this._marca} de ${this._tamano} encendiendo pantalla...`;
     }
 
     toString() {
@@ -187,84 +187,6 @@ class Orden {
                 // POLIMORFISMO EN ACCIÓN: La Orden solo llama a "conectar()" de computadora,
                 // la orden no necesita saber cómo se conecta cada pieza internamente.
                 console.log(computadora.conectar());
-            });
-        }
-        console.log("==========================================\n");
-    }
-
-    set monitor(monitor) {
-        this._monitor = monitor;
-    }
-
-    get teclado() {
-        return this._teclado;
-    }
-
-    set teclado(teclado) {
-        this._teclado = teclado;
-    }
-
-    get raton() {
-        return this._raton;
-    }
-
-    set raton(raton) {
-        this._raton = raton;
-    }
-
-    static get contadorComputadoras() {
-        return Computadora.contadorComputadoras;
-    }
-
-    toString() {
-        return `Computadora [ID: ${this._idComputadora}, Nombre: ${this._nombre}\n` +
-               `  ${this._monitor.toString()}\n` +
-               `  ${this._teclado.toString()}\n` +
-               `  ${this._raton.toString()}\n]`;
-    }
-}
-
-class Orden {
-    static contadorOrdenes = 0;
-    _idOrden;
-    _computadoras;
-
-    constructor() {
-        Orden.contadorOrdenes++;
-        this._idOrden = Orden.contadorOrdenes;
-        this._computadoras = [];
-    }
-
-    get idOrden() {
-        return this._idOrden;
-    }
-
-    get computadoras() {
-        return [...this._computadoras];
-    }
-
-    static get contadorOrdenes() {
-        return Orden.contadorOrdenes;
-    }
-
-    agregarComputadora(computadora) {
-        if (computadora instanceof Computadora) {
-            this._computadoras.push(computadora);
-        } else {
-            console.error("Error: Solo se pueden agregar objetos de tipo Computadora");
-        }
-    }
-
-    mostrarOrden() {
-        console.log(`\n========== ORDEN #${this._idOrden} ==========`);
-        console.log(`Total de computadoras: ${this._computadoras.length}`);
-        
-        if (this._computadoras.length === 0) {
-            console.log("No hay computadoras en esta orden");
-        } else {
-            this._computadoras.forEach((computadora, index) => {
-                console.log(`\n--- Computadora ${index + 1} ---`);
-                console.log(computadora.toString());
             });
         }
         console.log("==========================================\n");
