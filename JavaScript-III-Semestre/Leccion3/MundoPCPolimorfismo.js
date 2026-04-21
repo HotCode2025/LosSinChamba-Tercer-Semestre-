@@ -43,7 +43,7 @@ class Raton extends DispositivoEntrada {
 
     // POLIMORFISMO: El Ratón tiene su propia forma de "conectar"
     conectar() {
-        return `🖱️ Ratón ${this.marca} conectado vía ${this.tipoEntrada}.`;
+        return ` Ratón ${this.marca} conectado vía ${this.tipoEntrada}.`;
     }
 
     toString() {
@@ -66,7 +66,7 @@ class Teclado extends DispositivoEntrada {
 
     // POLIMORFISMO: El Teclado tiene su propia forma de "conectar"
     conectar() {
-        return `⌨️ Teclado ${this.marca} listo para escribir.`;
+        return `Teclado ${this.marca} listo para escribir.`;
     }
 
     toString() {
@@ -96,7 +96,7 @@ class Monitor {
 
     // POLIMORFISMO: El Monitor tiene su propia forma de "conectar"
     conectar() {
-        return `🖥️ Monitor ${this._marca} de ${this._tamano} encendiendo pantalla...`;
+        return `Monitor ${this._marca} de ${this._tamano} encendiendo pantalla...`;
     }
 
     toString() {
@@ -228,4 +228,4 @@ console.log(`Monitores creados: ${Monitor.contadorMonitores}`);
 console.log(`Teclados creados: ${Teclado.contadorTeclados}`);
 console.log(`Ratones creados: ${Raton.contadorRatones}`);
 console.log(`Computadoras creadas: ${Computadora.contadorComputadoras}`);
-console.log(`Órdenes creadas: ${Orden.contadorOrdenes
+console.log(`Órdenes creadas: ${Orden.contadorOrdenes}`);
