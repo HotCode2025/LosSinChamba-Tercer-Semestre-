@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0a0a0a; /* Fondo negro profundo */
+    color: #e6e6e6;
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.reloj-container {
+    background: linear-gradient(145deg, #141414, #0a0a0a);
+    padding: 3rem 5rem;
+    border-radius: 12px;
+    /* Sombra exterior color vino oscuro y un borde sutil */
+    box-shadow: 0 15px 35px rgba(92, 0, 30, 0.4), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    border: 1px solid #3d0513; 
+}
+
+#reloj {
+    font-size: 6rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #8a0329; /* Rojo cereza/vino */
+    /* Efecto de resplandor en el texto */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9),
+                 0 0 20px rgba(138, 3, 41, 0.5); 
+    font-variant-numeric: tabular-nums; /* Evita que los números "salten" al cambiar de ancho */
+}
