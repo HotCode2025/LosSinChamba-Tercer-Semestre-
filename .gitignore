@@ -7,3 +7,5 @@ __pycache__/
 *.class
 Samira_Baz/
 *.pyc
+private.xml
+private.properties

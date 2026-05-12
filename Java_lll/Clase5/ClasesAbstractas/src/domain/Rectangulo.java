@@ -2,6 +2,7 @@ package domain;
 
 public class Rectangulo extends FiguraGeometrica {
 //constructor
+
     public Rectangulo(String tipoFigura) {
         super(tipoFigura);
     }

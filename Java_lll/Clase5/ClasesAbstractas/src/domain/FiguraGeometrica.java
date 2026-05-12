@@ -1,14 +1,17 @@
 package domain;
 
 public abstract class FiguraGeometrica {
+
     protected String tipoFigura;
 
     protected FiguraGeometrica(String tipoFigura) {
         this.tipoFigura = tipoFigura;
     }
 //metodo abstracto
+
     public abstract void dibujar();
 //agregamos get y set
+
     public String getTipoFigura() {
         return tipoFigura;
     }
