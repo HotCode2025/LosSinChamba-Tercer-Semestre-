@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PIEDRA · PAPEL · TIJERA — Mortal Edition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       FONDO DEL ESCENARIO (volcán / templo)
+  ═══════════════════════════════════════════ -->
+  <div id="scene"></div>
+  <div id="embers"></div><!-- partículas de fuego generadas por JS -->
+
+  <!-- ═══════════════════════════════════════════
+       CONTENEDOR PRINCIPAL DEL JUEGO
+  ═══════════════════════════════════════════ -->
+  <div id="game">
+
+    <!-- ── HUD: Barras de vida + contador de ronda ── -->
+    <div id="hud">
+
+      <!-- Player 1 -->
+      <div class="fighter-hud p1">
+        <div class="fighter-name">⚡ Player 1</div>
+        <div class="hp-bar-wrap" id="hp-wrap-p1">
+          <div class="hp-bar full" id="hp-bar-p1"></div>
+        </div>
+      </div>
+
+      <!-- Contador de ronda central -->
+      <div id="round-display">
+        <div id="round-label">Ronda</div>
+        <div id="round-number">1</div>
+        <div class="round-pips" id="round-pips"></div>
+      </div>
+
+      <!-- Player 2 -->
+      <div class="fighter-hud p2">
+        <div class="fighter-name">Player 2 ⚡</div>
+        <div class="hp-bar-wrap" id="hp-wrap-p2">
+          <div class="hp-bar full" id="hp-bar-p2"></div>
+        </div>
+      </div>
+
+    </div><!-- /hud -->
+
+    <!-- Separador dorado -->
+    <div class="divider"></div>
+
+    <!-- ── Banner de anuncio ── -->
+    <div id="announce">⚔ Elige tu arma ⚔</div>
+
+    <!-- ── Escenario: avatares de los luchadores ── -->
+    <div id="stage">
+
+      <div class="fighter-display p1">
+        <div class="fighter-avatar" id="avatar-p1">
+          <span class="hidden-choice">?</span>
+        </div>
+        <div class="choice-label" id="label-p1">—</div>
+      </div>
+
+      <div id="vs-badge"><span>VS</span></div>
+
+      <div class="fighter-display p2">
+        <div class="fighter-avatar" id="avatar-p2">
+          <span class="hidden-choice">?</span>
+        </div>
+        <div class="choice-label" id="label-p2">—</div>
+      </div>
+
+    </div><!-- /stage -->
+
+    <!-- ── Flash de resultado de ronda ── -->
+    <div id="result-flash"></div>
+
+    <!-- ── Panel de selección de arma ── -->
+    <div id="choice-panel">
+
+      <!-- Etiqueta de turno actual -->
+      <div class="player-turn-label p1-turn" id="turn-label">
+        ⚡ Player 1 — Elige tu destino ⚡
+      </div>
+
+      <!-- Botones runa (Piedra / Papel / Tijera) -->
+      <div class="choices-row" id="choices-row">
+
+        <button class="rune-btn" data-choice="piedra">
+          <span class="btn-emoji">🪨</span>
+          <span class="btn-label">Piedra</span>
+        </button>
+
+        <button class="rune-btn" data-choice="papel">
+          <span class="btn-emoji">✋</span>
+          <span class="btn-label">Papel</span>
+        </button>
+
+        <button class="rune-btn" data-choice="tijera">
+          <span class="btn-emoji">✂️</span>
+          <span class="btn-label">Tijera</span>
+        </button>
+
+      </div><!-- /choices-row -->
+
+      <!-- Pantalla de espera entre turnos (P1 eligió, P2 aún no ve) -->
+      <div id="waiting-screen">
+        <div class="waiting-text">Pasa el dispositivo al oponente...</div>
+        <button class="confirm-btn" id="confirm-btn">⚔ Player 2 — LISTO ⚔</button>
+      </div>
+
+    </div><!-- /choice-panel -->
+
+    <!-- ── Log de combate (descripción textual del resultado) ── -->
+    <div id="combat-log"></div>
+
+    <!-- ── Historial de rondas jugadas ── -->
+    <div id="history"></div>
+
+  </div><!-- /game -->
+
+  <!-- ═══════════════════════════════════════════
+       OVERLAY DE FIN DE JUEGO
+  ═══════════════════════════════════════════ -->
+  <div id="gameover">
+    <div id="gameover-winner"></div>
+    <div id="gameover-sub">FATALITY</div>
+    <button class="rematch-btn" id="rematch-btn">⚔ REMATCH ⚔</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
