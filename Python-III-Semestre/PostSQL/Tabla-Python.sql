@@ -1,0 +1,13 @@
+-- Consulta información seleccionada
+--SELECT * FROM persona WHERE id_persona IN (1, 2, 3);
+-- Ingresamos un nuevo elemento a la tabla
+--INSERT INTO persona(nombre, apellido, email) VALUES ('Mariano', 'Rasgido', 'mariano.rasggido@gmail.com');
+-- Hacemos la consulta para ver toda la información de la tabla
+--SELECT * FROM persona;
+-- Actualizamos la información de un registro (¡Peligro: el original no tiene WHERE!)
+-- UPDATE persona SET nombre = 'Ezequiel', apellido = 'Diaz', email = 'ezediaz@gmail.com';
+-- Código corregido con la cláusula WHERE (ejemplo actualizando el ID 4)
+--UPDATE persona SET nombre = 'Ezequiel', apellido = 'Diaz', email = 'ezediaz@mail.com' WHERE id_persona = 4;
+SELECT * FROM persona;
+-- Eliminamos un registro específico de la tabla
+--DELETE FROM persona WHERE id_persona = 4;
