@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Problema de las N Reinas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Encabezado principal con título y subtítulo -->
+  <header>
+    <div class="header-chip"><span></span> Backtracking · Ajedrez</div>
+    <h1>♛ Problema de las N Reinas</h1>
+    <p class="subtitle">Algoritmos de Backtracking aplicados al ajedrez</p>
+  </header>
+
+  <!-- Sección que explica el problema al usuario -->
+  <section class="explanation">
+    <div class="card">
+      <h2>¿En qué consiste el problema?</h2>
+      <p>
+        El <strong>Problema de las N Reinas</strong> consiste en colocar <strong>N reinas</strong>
+        en un tablero de ajedrez de <strong>N × N</strong> de tal manera que
+        <strong>ninguna reina pueda atacar a otra</strong>. Es decir, no pueden compartir
+        la misma fila, columna ni diagonal.
+      </p>
+      <p>
+        Para resolverlo se utiliza la técnica de <strong>Backtracking</strong>:
+        se van colocando reinas columna por columna y, si se detecta un conflicto,
+        se retrocede y se prueba otra posición.
+      </p>
+    </div>
+  </section>
+
+  <!-- Input para ingresar N y el botón para arrancar -->
+  <section class="controls">
+    <div class="input-group">
+      <label for="nInput">Valor de N (mínimo 8):</label>
+      <input
+        type="number"
+        id="nInput"
+        value="8"
+        min="8"
+        max="20"
+        placeholder="Ingresa N"
+      />
+    </div>
+    <p id="errorMsg" class="error hidden">⚠️ El valor de N debe ser mayor o igual a 8.</p>
+    <div class="btn-group">
+      <button id="solveBtn">♛ Resolver</button>
+      <button id="resetBtn" class="hidden">↺ Reiniciar</button>
+    </div>
+  </section>
+
+  <!-- Acá aparecen los mensajes: buscando, encontrado, no existe -->
+  <section class="status-area">
+    <p id="statusMsg" class="status hidden"></p>
+  </section>
+
+  <!-- El tablero se genera dinámicamente desde JS -->
+  <section class="board-area">
+    <div class="board-wrapper">
+      <div id="board" class="board"></div>
+    </div>
+  </section>
+
+  <!-- Sección donde se muestra el arreglo de posiciones -->
+  <section class="result-area hidden" id="resultArea">
+    <div class="card">
+      <h3>Arreglo de posiciones de las reinas:</h3>
+      <p class="result-desc">
+        Cada índice representa la <strong>fila</strong> donde se ubica la reina en esa columna.
+      </p>
+      <div id="resultArray" class="result-array"></div>
+    </div>
+  </section>
+
+  <!-- Footer con el nombre de la actividad -->
+  <footer>
+    <p>Grupo <strong>Los Sin Chamba</strong> — Algoritmos y Programación</p>
+  </footer>
+
+  <!-- Sección de integrantes del grupo -->
+  <section class="team-area">
+    <div class="card team-card">
+      <h3>Integrantes del grupo</h3>
+      <p class="team-subtitle">Grupo · <span>Los Sin Chamba</span></p>
+      <ul class="team-list">
+        <li><span class="team-icon">♛</span> Lautaro Martínez</li>
+        <li><span class="team-icon">♛</span> Gabriel Maculus</li>
+        <li><span class="team-icon">♛</span> Leandro Orozco</li>
+        <li><span class="team-icon">♛</span> Kevin Castilla</li>
+        <li><span class="team-icon">♛</span> Mariano Rasguido</li>
+        <li><span class="team-icon">♛</span> Ezequiel Díaz</li>
+        <li><span class="team-icon">♛</span> Samira Baz</li>
+        <li><span class="team-icon">♛</span> Jose Rodríguez</li>
+      </ul>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
