@@ -1,0 +1,85 @@
+01:02:03 AM:DEBUG [logger_base.py:15] Mensaje a nivel debug
+01:02:03 AM:INFO [logger_base.py:16] Mensaje a nivel info
+01:02:03 AM:WARNING [logger_base.py:17] Mensaje a nivel warning
+01:02:03 AM:ERROR [logger_base.py:18] Mensaje a nivel error
+01:02:03 AM:CRITICAL [logger_base.py:19] Mensaje a nivel critical
+01:16:48 AM:DEBUG [Persona.py:54] 
+            Id Persona: 1,
+            Nombre: Juan,
+            Apellido: Perez,
+            Email: jperez@mail.com
+        
+01:25:10 AM:DEBUG [Persona.py:54] 
+            Id Persona: 1,
+            Nombre: Juan,
+            Apellido: Perez,
+            Email: jperez@mail.com
+        
+01:26:48 AM:DEBUG [Persona.py:54] 
+            Id Persona: 1,
+            Nombre: Juan,
+            Apellido: Perez,
+            Email: jperez@mail.com
+        
+01:26:48 AM:DEBUG [Persona.py:56] 
+            Id Persona: Jose,
+            Nombre: Lepez,
+            Apellido: ljose@mail.com,
+            Email: None
+        
+01:27:43 AM:DEBUG [Persona.py:54] 
+            Id Persona: 1,
+            Nombre: Juan,
+            Apellido: Perez,
+            Email: jperez@mail.com
+        
+01:27:43 AM:DEBUG [Persona.py:56] 
+            Id Persona: None,
+            Nombre: Jose,
+            Apellido: Lepez,
+            Email: ljose@mail.com
+        
+01:29:02 AM:DEBUG [logger_base.py:15] Mensaje a nivel debug
+01:29:02 AM:INFO [logger_base.py:16] Mensaje a nivel info
+01:29:02 AM:WARNING [logger_base.py:17] Mensaje a nivel warning
+01:29:02 AM:ERROR [logger_base.py:18] Mensaje a nivel error
+01:29:02 AM:CRITICAL [logger_base.py:19] Mensaje a nivel critical
+01:30:17 AM:DEBUG [logger_base.py:15] Mensaje a nivel debug
+01:30:17 AM:INFO [logger_base.py:16] Mensaje a nivel info
+01:30:17 AM:WARNING [logger_base.py:17] Mensaje a nivel warning
+01:30:17 AM:ERROR [logger_base.py:18] Mensaje a nivel error
+01:30:17 AM:CRITICAL [logger_base.py:19] Mensaje a nivel critical
+01:30:34 AM:DEBUG [logger_base.py:15] Mensaje a nivel debug
+01:30:34 AM:INFO [logger_base.py:16] Mensaje a nivel info
+01:30:34 AM:WARNING [logger_base.py:17] Mensaje a nivel warning
+01:30:34 AM:ERROR [logger_base.py:18] Mensaje a nivel error
+01:30:34 AM:CRITICAL [logger_base.py:19] Mensaje a nivel critical
+01:31:29 AM:DEBUG [Persona.py:54] 
+            Id Persona: 1,
+            Nombre: Juan,
+            Apellido: Perez,
+            Email: jperez@mail.com
+        
+01:31:29 AM:DEBUG [Persona.py:56] 
+            Id Persona: None,
+            Nombre: Jose,
+            Apellido: Lepez,
+            Email: ljose@mail.com
+        
+01:31:46 AM:DEBUG [Persona.py:54] 
+            Id Persona: 1,
+            Nombre: Juan,
+            Apellido: Perez,
+            Email: jperez@mail.com
+        
+01:31:46 AM:DEBUG [Persona.py:56] 
+            Id Persona: None,
+            Nombre: Jose,
+            Apellido: Lepez,
+            Email: ljose@mail.com
+        
+02:01:36 AM:DEBUG [conexion.py:23] Conexion Exitosa: <connection object at 0x00000293CBCEEDF0; dsn: 'user=postgres password=xxx dbname=test_db host=127.0.0.1 port=5432', closed: 0>
+02:03:48 AM:DEBUG [conexion.py:23] Conexion Exitosa: <connection object at 0x000001FBB691EDF0; dsn: 'user=postgres password=xxx dbname=test_db host=127.0.0.1 port=5432', closed: 0>
+02:03:48 AM:ERROR [conexion.py:40] Ocurrió un error: 'NoneType' object has no attribute 'cursor'
+02:06:02 AM:DEBUG [conexion.py:23] Conexion Exitosa: <connection object at 0x000002A3DAEDEDF0; dsn: 'user=postgres password=xxx dbname=test_db host=127.0.0.1 port=5432', closed: 0>
+02:06:02 AM:DEBUG [conexion.py:36] Se abrió corectamente el cursor: <cursor object at 0x000002A3DC5C3840; closed: 0>
