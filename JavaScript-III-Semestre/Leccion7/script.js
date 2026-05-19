@@ -11,9 +11,19 @@
   Además de resolver, todo se va mostrando en el tablero paso
   a paso con una pequeña pausa entre movimientos para que se
   pueda ver el proceso.
+
+  ─── Autoría ───────────────────────────────────────────────
+  Estructura base e integración general : Lautaro Martinez
+  Algoritmo de backtracking (solveWithAnimation, isSafe) : Gabriel Maculus
+  Renderizado del tablero (renderEmptyBoard) : Leandro Orozco
+  Control de animación (sleep, animationDelay, stopRequested) : Kevin Castilla
+  Eventos de controles / botones (solveBtn, resetBtn) : Ezequiel Diaz
+  Sección de resultados (showResult, hideResult) : Jose Rodriguez
+  Mensajes de estado y errores (setStatus, showError) : Jose Rodriguez
+  ────────────────────────────────────────────────────────────
 */
 
-// Agarro todas las referencias al DOM que voy a necesitar
+// ── Lautaro Martinez: referencias al DOM ──
 const nInput     = document.getElementById('nInput');
 const solveBtn   = document.getElementById('solveBtn');
 const resetBtn   = document.getElementById('resetBtn');
@@ -23,14 +33,14 @@ const boardEl    = document.getElementById('board');
 const resultArea = document.getElementById('resultArea');
 const resultArr  = document.getElementById('resultArray');
 
-// Estas dos variables las uso para controlar la animación.
+// ── Kevin Castilla: variables de control de animación ──
 // animationDelay es cuánto espera entre cada paso (en ms),
 // y stopRequested sirve para cortar la animación si el usuario
 // presiona Resolver otra vez antes de que termine.
 let animationDelay = 80;
 let stopRequested  = false;
 
-// Cuando el usuario hace clic en Resolver empieza todo esto
+// ── Ezequiel Diaz: evento del botón Resolver ──
 solveBtn.addEventListener('click', async () => {
   const n = parseInt(nInput.value, 10);
 
@@ -75,7 +85,7 @@ solveBtn.addEventListener('click', async () => {
   resetBtn.classList.remove('hidden');
 });
 
-// Cuando el usuario hace clic en Reiniciar limpia todo y vuelve al estado inicial
+// ── Ezequiel Diaz: evento del botón Reiniciar ──
 resetBtn.addEventListener('click', () => {
   // Corta cualquier animación que esté corriendo
   stopRequested = true;
@@ -94,9 +104,7 @@ resetBtn.addEventListener('click', () => {
   resetBtn.classList.add('hidden');
 });
 
-// ------------------------------------
-// Función principal del backtracking
-// ------------------------------------
+// ── Gabriel Maculus: algoritmo principal de backtracking ──
 // Recibe el estado actual del tablero (queens), la columna
 // en la que está parado (col), y el tamaño N.
 // Va probando cada fila de la columna actual. Si la posición
@@ -142,7 +150,7 @@ async function solveWithAnimation(queens, col, n) {
   return false;
 }
 
-// Acá verifico si una posición es válida o no.
+// ── Gabriel Maculus: verificación de posición segura (isSafe) ──
 // Las columnas nunca se repiten porque pongo exactamente una
 // reina por columna, así que solo tengo que revisar:
 //   - que no haya otra reina en la misma fila
@@ -163,7 +171,7 @@ function isSafe(queens, col, row) {
   return true;
 }
 
-// Genera el tablero desde cero cada vez que se ejecuta.
+// ── Leandro Orozco: generación del tablero (renderEmptyBoard) ──
 // El tamaño de cada celda se calcula para que entre en pantalla
 // sin importar qué tan grande sea N. El mínimo es 28px y el
 // máximo 64px. Cada celda tiene un id único para poder
@@ -191,8 +199,7 @@ function renderEmptyBoard(n) {
   }
 }
 
-// Pone una reina en el tablero agregando la clase CSS correspondiente.
-// Si conflict es true la pinta de rojo (para errores futuros si hace falta).
+// ── Leandro Orozco: manejo visual de las reinas en el tablero ──
 function placeQueen(col, row, n, conflict = false) {
   const cell = getCell(col, row);
   if (!cell) return;
@@ -228,10 +235,7 @@ function getCell(col, row) {
   return document.getElementById(`cell-${col}-${row}`);
 }
 
-// Muestra el resultado debajo del tablero.
-// Cada número del arreglo aparece como un badge y al final
-// pongo el arreglo completo en formato [ a, b, c... ] para que
-// quede bien claro.
+// ── Jose Rodriguez: mostrar arreglo de posiciones (showResult) ──
 function showResult(queens) {
   resultArr.innerHTML = '';
 
@@ -251,28 +255,25 @@ function showResult(queens) {
   resultArea.classList.remove('hidden');
 }
 
-// Limpia la sección de resultado cuando se va a resolver de nuevo
+// ── Jose Rodriguez: limpiar resultado (hideResult) ──
 function hideResult() {
   resultArea.classList.add('hidden');
   resultArr.innerHTML = '';
 }
 
-// Cambia el mensaje de estado que aparece arriba del tablero.
-// Le paso el tipo para aplicar el color correcto (amarillo, verde o rojo).
+// ── Jose Rodriguez: mensaje de estado (setStatus) ──
 function setStatus(type, msg) {
   statusMsg.textContent = msg;
   statusMsg.className   = `status ${type}`;
   statusMsg.classList.remove('hidden');
 }
 
-// Muestra u oculta el cartel de error según el valor de 'show'
+// ── Ezequiel Diaz: mostrar/ocultar error de validación ──
 function showError(show) {
   errorMsg.classList.toggle('hidden', !show);
 }
 
-// Un simple helper para pausar la ejecución N milisegundos.
-// Lo uso con await para darle tiempo al navegador de redibujar
-// el tablero entre cada paso del algoritmo.
+// ── Kevin Castilla: helper de pausa para animación (sleep) ──
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }

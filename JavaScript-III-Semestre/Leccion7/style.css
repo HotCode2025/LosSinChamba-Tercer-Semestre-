@@ -1,6 +1,18 @@
 /*
   style.css — N Reinas
   Rediseño moderno: glassmorphism, gradientes animados, Inter font.
+
+  ─── Autoría ───────────────────────────────────────────────
+  Variables globales y sistema de diseño  : Lautaro Martinez
+  Header (efectos, orbe, chip, tipografía): Mariano Rasguido
+  Cards glassmorphism                     : Samira Baz
+  Sección de controles (input, botones)   : Ezequiel Diaz
+  Mensajes de estado                      : Jose Rodriguez
+  Tablero de ajedrez y animaciones        : Leandro Orozco
+  Sección de resultado y badges           : Samira Baz
+  Sección de integrantes y footer         : Mariano Rasguido
+  Responsive / media queries              : Samira Baz
+  ────────────────────────────────────────────────────────────
 */
 
 /* Borro márgenes y rellenos por defecto de todos los elementos */
@@ -10,7 +22,7 @@
   padding: 0;
 }
 
-/* Variables globales. Si quiero cambiar el acento, solo toco acá. */
+/* ── Lautaro Martinez: variables globales del sistema de diseño ── */
 :root {
   --bg:          #07070f;
   --surface:     rgba(255, 255, 255, 0.045);
@@ -52,7 +64,7 @@ body {
   padding-bottom: 80px;
 }
 
-/* ---- Encabezado ---- */
+/* ── Mariano Rasguido: encabezado ── */
 header {
   width: 100%;
   text-align: center;
@@ -130,7 +142,7 @@ header .subtitle {
   letter-spacing: 0.3px;
 }
 
-/* ---- Tarjeta glassmorphism ---- */
+/* ── Samira Baz: tarjetas glassmorphism ── */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -183,7 +195,7 @@ header .subtitle {
   font-weight: 600;
 }
 
-/* ---- Sección de explicación ---- */
+/* ── Lautaro Martinez: sección de explicación ── */
 .explanation {
   margin-top: 52px;
   padding: 0 20px;
@@ -192,7 +204,7 @@ header .subtitle {
   width: 100%;
 }
 
-/* ---- Controles: input y botón ---- */
+/* ── Ezequiel Diaz: controles, input y botones ── */
 .controls {
   margin-top: 36px;
   display: flex;
@@ -336,7 +348,7 @@ input[type="number"]::-webkit-outer-spin-button {
   transform: translateY(0) scale(0.98);
 }
 
-/* ---- Mensajes de estado ---- */
+/* ── Jose Rodriguez: mensajes de estado ── */
 .status-area {
   margin-top: 24px;
   min-height: 40px;
@@ -372,7 +384,7 @@ input[type="number"]::-webkit-outer-spin-button {
   border: 1px solid rgba(248, 113, 113, 0.25);
 }
 
-/* ---- Tablero de ajedrez ---- */
+/* ── Leandro Orozco: tablero de ajedrez ── */
 .board-area {
   margin-top: 28px;
   display: flex;
@@ -454,7 +466,7 @@ input[type="number"]::-webkit-outer-spin-button {
   50%       { opacity: 0.3; }
 }
 
-/* ---- Sección de resultado con el arreglo ---- */
+/* ── Samira Baz: sección de resultado con el arreglo ── */
 .result-area {
   margin-top: 36px;
   padding: 0 20px;
@@ -506,7 +518,7 @@ input[type="number"]::-webkit-outer-spin-button {
   border: 1px solid var(--border);
 }
 
-/* ---- Sección de integrantes ---- */
+/* ── Mariano Rasguido: sección de integrantes ── */
 .team-area {
   margin-top: 36px;
   margin-bottom: 100px;
@@ -571,7 +583,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: none !important;
 }
 
-/* ---- Footer fijo al fondo ---- */
+/* ── Mariano Rasguido: footer ── */
 footer {
   position: fixed;
   bottom: 0;
@@ -587,7 +599,7 @@ footer {
   letter-spacing: 0.3px;
 }
 
-/* Ajustes para pantallas chicas (móviles) */
+/* ── Samira Baz: responsive para pantallas chicas ── */
 @media (max-width: 600px) {
   header {
     padding: 52px 16px 40px;
