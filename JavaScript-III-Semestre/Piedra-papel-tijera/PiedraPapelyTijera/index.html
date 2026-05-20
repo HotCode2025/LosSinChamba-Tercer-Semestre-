@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIEDRA · PAPEL · TIJERA — Edición Mortal</title>
+<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="piedra-papel-tij.css">
+<style>
+/* ═══════════════════════════════════════════
+   ROOT  reseteo y variables de color
+   Autor: Los Sin Chamba
+═══════════════════════════════════════════ */
+:root {
+  --blood:     #8b0000;
+  --blood-bright: #cc0000;
+  --fire-1:    #ff4500;
+  --fire-2:    #ff8c00;
+  --fire-3:    #ffd700;
+  --gold:      #c9a84c;
+  --gold-dark: #7a5c1a;
+  --stone:     #2a2a2a;
+  --stone-mid: #1a1a1a;
+  --stone-dark:#0d0d0d;
+  --p1-color:  #00e5ff;
+  --p2-color:  #ff1744;
+  --hp-green:  #00c853;
+  --hp-yellow: #ffd600;
+  --hp-red:    #d50000;
+  --text-glow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Cinzel', serif;
+  background: #000;
+  color: #ddd;
+  min-height: 100vh;
+  overflow-x: hidden;
+  user-select: none;
+  cursor: default;
+}
+
+/* ═══════════════════════════════════════════
+   BACKGROUND — VOLCAN TEMPLE DEL FONDO
+   Autor: Gabriel Maculus — Developer
+   Tarea: Gradientes de volcán, lava y animación lavaFlicker
+═══════════════════════════════════════════ */
+#scene {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 110%, #ff4500aa 0%, transparent 55%),
+    radial-gradient(ellipse 100% 60% at 50% 100%, #8b000066 0%, transparent 60%),
+    linear-gradient(180deg, #0a0005 0%, #110008 30%, #1a0010 60%, #200000 100%);
+}
+
+#scene::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 120px,
+      #ffffff04 120px,
+      #ffffff04 140px,
+      transparent 140px,
+      transparent 260px
+    );
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+}
+
+#scene::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 30vh;
+  background:
+    radial-gradient(ellipse 70% 100% at 30% 100%, #ff450044 0%, transparent 70%),
+    radial-gradient(ellipse 70% 100% at 70% 100%, #ff200044 0%, transparent 70%);
+  animation: lavaFlicker 3s ease-in-out infinite alternate;
+}
+
+@keyframes lavaFlicker {
+  0%   { opacity: 0.6; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* ═══════════════════════════════════════════
+   PARTÍCULAS DE BRASA
+   Autor: Gabriel Maculus — Developer
+   Tarea: Animación emberRise y estilos de .ember
+═══════════════════════════════════════════ */
+#embers {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden;
+}
+
+.ember {
+  position: absolute;
+  bottom: -10px;
+  border-radius: 50%;
+  animation: emberRise linear infinite;
+  pointer-events: none;
+}
+
+@keyframes emberRise {
+  0%   { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+  50%  { transform: translateY(-50vh) translateX(var(--dx)) scale(0.7); opacity: 0.8; }
+  100% { transform: translateY(-110vh) translateX(calc(var(--dx) * 2)) scale(0.2); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════
+   CONTENEDOR PRINCIPAL
+═══════════════════════════════════════════ */
+#game {
+  position: relative; z-index: 10;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 12px 16px 24px;
+}
+
+/* ═══════════════════════════════════════════
+   HUD — BARRA SUPERIOR
+═══════════════════════════════════════════ */
+#hud {
+  width: 100%; max-width: 900px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.fighter-hud {
+  display: flex; flex-direction: column; gap: 4px;
+}
+
+.fighter-hud.p2 { align-items: flex-end; }
+
+.fighter-name {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(0.75rem, 2vw, 1rem);
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.fighter-hud.p1 .fighter-name { color: var(--p1-color); text-shadow: var(--text-glow); }
+.fighter-hud.p2 .fighter-name { color: var(--p2-color); text-shadow: var(--text-glow); }
+
+.hp-bar-wrap {
+  width: 100%;
+  height: 22px;
+  background: #000;
+  border: 2px solid #333;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 6px #000, 0 0 8px #0005;
+}
+
+.hp-bar {
+  height: 100%;
+  width: 100%;
+  border-radius: 1px;
+  transition: width 0.4s cubic-bezier(.22,.68,0,1.2), background-color 0.4s;
+  position: relative;
+}
+
+.hp-bar::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%);
+}
+
+.hp-bar.full   { background: linear-gradient(90deg, var(--hp-green), #00ff88); }
+.hp-bar.medium { background: linear-gradient(90deg, var(--hp-yellow), #ffaa00); }
+.hp-bar.low    { background: linear-gradient(90deg, var(--hp-red), #ff4444);
+                 animation: hpPulse 0.8s ease-in-out infinite; }
+
+@keyframes hpPulse {
+  0%, 100% { filter: brightness(1); }
+  50%       { filter: brightness(1.4); }
+}
+
+.fighter-hud.p2 .hp-bar-wrap { direction: rtl; }
+
+/* Round counter (center HUD) */
+#round-display {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  min-width: 80px;
+}
+
+#round-label {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+#round-number {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 14px var(--gold), 0 0 30px var(--fire-1);
+  line-height: 1;
+}
+
+.round-pips {
+  display: flex; gap: 5px; margin-top: 2px;
+}
+
+.pip {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: transparent;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.pip.p1-win { background: var(--p1-color); box-shadow: 0 0 6px var(--p1-color); }
+.pip.p2-win { background: var(--p2-color); box-shadow: 0 0 6px var(--p2-color); }
+
+/* ═══════════════════════════════════════════
+   ARENA DIVIDER
+═══════════════════════════════════════════ */
+.divider {
+  width: 100%; max-width: 900px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--blood-bright), var(--gold), transparent);
+  margin: 6px 0;
+  box-shadow: 0 0 12px var(--fire-1);
+}
+
+/* ═══════════════════════════════════════════
+   ANNOUNCE BANNER
+═══════════════════════════════════════════ */
+#announce {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(1rem, 3.5vw, 1.6rem);
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-align: center;
+  min-height: 40px;
+  padding: 6px 16px;
+  color: var(--gold);
+  text-shadow: 0 0 10px var(--gold), 0 0 25px var(--fire-1);
+  text-transform: uppercase;
+  transition: opacity 0.3s;
+}
+
+/* ═══════════════════════════════════════════
+   COMBAT STAGE — FIGHTER DISPLAYS
+═══════════════════════════════════════════ */
+#stage {
+  width: 100%; max-width: 900px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  align-items: center;
+  margin: 6px 0;
+}
+
+.fighter-display {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+
+.fighter-avatar {
+  width: clamp(90px, 20vw, 140px);
+  height: clamp(90px, 20vw, 140px);
+  border-radius: 8px;
+  border: 3px solid #333;
+  background: radial-gradient(circle at 40% 30%, #2a1a0a, #0d0d0d);
+  display: flex; align-items: center; justify-content: center;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s, box-shadow 0.3s;
+  box-shadow: inset 0 0 20px #000, 0 4px 20px #0009;
+}
+
+.fighter-avatar::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%);
+  border-radius: inherit;
+}
+
+.fighter-display.p1 .fighter-avatar {
+  border-color: var(--p1-color);
+  box-shadow: inset 0 0 20px #000, 0 0 18px var(--p1-color)44, 0 4px 20px #0009;
+}
+
+.fighter-display.p2 .fighter-avatar {
+  border-color: var(--p2-color);
+  box-shadow: inset 0 0 20px #000, 0 0 18px var(--p2-color)44, 0 4px 20px #0009;
+}
+
+.fighter-avatar .choice-emoji { font-size: inherit; line-height: 1; }
+.fighter-avatar .hidden-choice {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  color: #555;
+  text-shadow: none;
+}
+
+.choice-label {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #777;
+  min-height: 18px;
+}
+
+/* VS badge */
+#vs-badge {
+  display: flex; align-items: center; justify-content: center;
+  width: clamp(50px, 10vw, 70px);
+  height: clamp(50px, 10vw, 70px);
+}
+
+#vs-badge span {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: 900;
+  color: var(--blood-bright);
+  text-shadow: 0 0 14px var(--blood-bright), 0 0 30px var(--fire-1);
+  animation: vsPulse 2s ease-in-out infinite;
+}
+
+@keyframes vsPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.12); }
+}
+
+/* ═══════════════════════════════════════════
+   RESULT FLASH
+═══════════════════════════════════════════ */
+#result-flash {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  text-align: center;
+  min-height: 50px;
+  padding: 6px;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#result-flash.show { opacity: 1; }
+#result-flash.win-p1 { color: var(--p1-color); text-shadow: var(--text-glow); }
+#result-flash.win-p2 { color: var(--p2-color); text-shadow: var(--text-glow); }
+#result-flash.draw   { color: var(--gold);      text-shadow: var(--text-glow); }
+
+/* ═══════════════════════════════════════════
+   CHOICE BUTTONS PANEL
+═══════════════════════════════════════════ */
+#choice-panel {
+  width: 100%; max-width: 680px;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.player-turn-label {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(0.75rem, 2vw, 1rem);
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 5px 20px;
+  border-radius: 3px;
+  animation: turnGlow 1.2s ease-in-out infinite alternate;
+}
+
+.player-turn-label.p1-turn {
+  color: var(--p1-color);
+  border: 1px solid var(--p1-color)66;
+  background: var(--p1-color)11;
+  text-shadow: var(--text-glow);
+}
+
+.player-turn-label.p2-turn {
+  color: var(--p2-color);
+  border: 1px solid var(--p2-color)66;
+  background: var(--p2-color)11;
+  text-shadow: var(--text-glow);
+}
+
+@keyframes turnGlow {
+  from { box-shadow: 0 0 6px currentColor; }
+  to   { box-shadow: 0 0 18px currentColor, 0 0 35px currentColor; }
+}
+
+.choices-row {
+  display: flex; gap: clamp(10px, 2vw, 20px);
+  justify-content: center;
+}
+
+/* RUNE BUTTONS */
+.rune-btn {
+  position: relative;
+  width: clamp(80px, 18vw, 120px);
+  height: clamp(80px, 18vw, 120px);
+  border: none; cursor: pointer;
+  border-radius: 6px;
+  background:
+    linear-gradient(135deg, #3a3020 0%, #1a1208 50%, #0d0d0d 100%);
+  outline: 2px solid #4a3a1a;
+  outline-offset: -2px;
+  box-shadow:
+    inset 0 2px 4px rgba(255,255,255,0.08),
+    inset 0 -2px 4px rgba(0,0,0,0.6),
+    0 4px 15px rgba(0,0,0,0.8),
+    0 0 0 1px #2a2010;
+  transition: transform 0.15s, box-shadow 0.2s, outline-color 0.2s;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 4px;
+}
+
+.rune-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.rune-btn::after {
+  content: '';
+  position: absolute; inset: -3px;
+  border-radius: 8px;
+  background: conic-gradient(
+    from 0deg,
+    var(--fire-1), var(--fire-2), var(--fire-3), var(--fire-2), var(--fire-1)
+  );
+  z-index: -1;
+  opacity: 0;
+  filter: blur(4px);
+  transition: opacity 0.2s;
+}
+
+.rune-btn:hover {
+  transform: scale(1.08) translateY(-3px);
+  outline-color: var(--fire-1);
+  box-shadow:
+    inset 0 2px 4px rgba(255,255,255,0.12),
+    inset 0 -2px 4px rgba(0,0,0,0.6),
+    0 8px 25px rgba(0,0,0,0.9),
+    0 0 20px var(--fire-1)66,
+    0 0 40px var(--fire-2)33;
+}
+
+.rune-btn:hover::after { opacity: 1; }
+.rune-btn:active { transform: scale(0.97) translateY(0); }
+
+.rune-btn .btn-emoji {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px #000);
+  transition: filter 0.2s;
+}
+
+.rune-btn:hover .btn-emoji { filter: drop-shadow(0 0 8px var(--fire-2)); }
+
+.rune-btn .btn-label {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.5rem, 1.2vw, 0.65rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* ═══════════════════════════════════════════
+   PHASE: WAITING FOR P2 (HIDDEN CHOICE)
+═══════════════════════════════════════════ */
+#waiting-screen {
+  display: none;
+  flex-direction: column; align-items: center; gap: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+#waiting-screen.show { display: flex; }
+
+.waiting-text {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  animation: waitingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes waitingPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+.confirm-btn {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #000;
+  background: linear-gradient(135deg, var(--fire-2), var(--fire-1));
+  border: none; cursor: pointer;
+  padding: 12px 32px;
+  border-radius: 4px;
+  box-shadow: 0 4px 20px var(--fire-1)66, inset 0 1px 0 rgba(255,255,255,0.3);
+  transition: transform 0.15s, box-shadow 0.2s;
+  clip-path: polygon(8px 0%, calc(100% - 8px) 0%, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0% calc(100% - 8px), 0% 8px);
+}
+
+.confirm-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 30px var(--fire-1)99;
+}
+
+/* ═══════════════════════════════════════════
+   GAME OVER OVERLAY
+═══════════════════════════════════════════ */
+#gameover {
+  display: none;
+  position: fixed; inset: 0; z-index: 100;
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 24px;
+  background: radial-gradient(ellipse at center, #3a000066 0%, #00000099 60%);
+  backdrop-filter: blur(4px);
+}
+
+#gameover.show { display: flex; }
+
+#gameover-winner {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+  animation: bloodyBlink 0.6s ease-in-out infinite;
+  line-height: 1.1;
+}
+
+#gameover-winner.p1-wins { color: var(--p1-color); text-shadow: 0 0 20px var(--p1-color), 0 0 50px var(--p1-color)88, 0 0 80px var(--blood); }
+#gameover-winner.p2-wins { color: var(--p2-color); text-shadow: 0 0 20px var(--p2-color), 0 0 50px var(--p2-color)88, 0 0 80px var(--blood); }
+
+@keyframes bloodyBlink {
+  0%   { opacity: 1; filter: brightness(1); }
+  40%  { opacity: 1; filter: brightness(1.3) saturate(1.5); }
+  60%  { opacity: 0.85; filter: brightness(0.9); }
+  100% { opacity: 1; filter: brightness(1); }
+}
+
+#gameover-sub {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  letter-spacing: 0.5em;
+  color: var(--blood-bright);
+  text-shadow: 0 0 20px var(--blood-bright);
+  animation: fatality 1s ease-in-out infinite alternate;
+}
+
+@keyframes fatality {
+  from { letter-spacing: 0.5em; opacity: 0.7; }
+  to   { letter-spacing: 0.7em; opacity: 1; }
+}
+
+.rematch-btn {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #000;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  border: none; cursor: pointer;
+  padding: 14px 40px;
+  border-radius: 4px;
+  box-shadow: 0 4px 20px var(--gold)66, inset 0 1px 0 rgba(255,255,255,0.4);
+  transition: transform 0.15s, box-shadow 0.2s;
+  clip-path: polygon(12px 0%, calc(100% - 12px) 0%, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0% calc(100% - 12px), 0% 12px);
+}
+
+.rematch-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 35px var(--gold)99;
+}
+
+/* Botón de reset en el juego */
+#game-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+  align-items: center;
+  justify-content: center;
+}
+
+#restart-btn {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+  letter-spacing: 0.2em;
+  background: transparent;
+  color: var(--fire-2);
+  border: 1px solid var(--fire-2)66;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 3px;
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+#restart-btn:hover {
+  color: var(--fire-1);
+  border-color: var(--fire-1);
+  box-shadow: 0 0 10px var(--fire-1)66;
+}
+
+#reset-btn {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+  letter-spacing: 0.2em;
+  background: transparent;
+  color: #555;
+  border: 1px solid #333;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 3px;
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  margin-top: 6px;
+}
+
+#reset-btn:hover {
+  color: var(--gold);
+  border-color: var(--gold)66;
+  box-shadow: 0 0 10px var(--gold)44;
+}
+
+/* ═══════════════════════════════════════════
+   SCREEN SHAKE
+═══════════════════════════════════════════ */
+@keyframes screenShake {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  10%  { transform: translate(-4px, -2px) rotate(-0.5deg); }
+  20%  { transform: translate(4px, 2px) rotate(0.5deg); }
+  30%  { transform: translate(-3px, 3px) rotate(-0.3deg); }
+  40%  { transform: translate(3px, -3px) rotate(0.3deg); }
+  50%  { transform: translate(-2px, 1px) rotate(0deg); }
+  60%  { transform: translate(2px, -1px) rotate(0.2deg); }
+  70%  { transform: translate(-1px, 2px) rotate(-0.1deg); }
+  80%  { transform: translate(2px, -1px) rotate(0.1deg); }
+  90%  { transform: translate(-1px, 1px) rotate(0deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+body.shake { animation: screenShake 0.5s ease-out; }
+
+/* ═══════════════════════════════════════════
+   HP DAMAGE FLASH
+═══════════════════════════════════════════ */
+@keyframes damageFlash {
+  0%   { box-shadow: inset 0 0 0 3px #fff, 0 0 20px #fff; }
+  50%  { box-shadow: inset 0 0 0 3px var(--blood-bright), 0 0 30px var(--blood-bright); }
+  100% { box-shadow: inset 0 0 0 0px transparent, 0 0 0px transparent; }
+}
+
+.hp-bar-wrap.damaged { animation: damageFlash 0.5s ease-out; }
+
+/* ═══════════════════════════════════════════
+   CHOICE REVEAL ANIMATION
+═══════════════════════════════════════════ */
+@keyframes choiceReveal {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60%  { transform: scale(1.2) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.fighter-avatar.reveal { animation: choiceReveal 0.4s cubic-bezier(.34,1.56,.64,1) forwards; }
+
+/* ═══════════════════════════════════════════
+   HISTORY LOG
+═══════════════════════════════════════════ */
+#history {
+  width: 100%; max-width: 900px;
+  margin-top: 10px;
+  display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;
+}
+
+.history-entry {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border-radius: 2px;
+  border: 1px solid #333;
+  background: #0d0d0d;
+  color: #666;
+}
+
+.history-entry.p1w { border-color: var(--p1-color)44; color: var(--p1-color)99; }
+.history-entry.p2w { border-color: var(--p2-color)44; color: var(--p2-color)99; }
+.history-entry.draw-h { border-color: var(--gold)44; color: var(--gold)88; }
+
+/* ═══════════════════════════════════════════
+   COMBAT LOG
+═══════════════════════════════════════════ */
+#combat-log {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+  letter-spacing: 0.1em;
+  color: #666;
+  text-align: center;
+  min-height: 18px;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE TWEAKS
+═══════════════════════════════════════════ */
+@media (max-width: 480px) {
+  #hud { gap: 6px; }
+  .rune-btn { width: 72px; height: 72px; }
+  .choices-row { gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ───── PANTALLA DE INICIO ─────
+     Autora: Samira Baz — Developer
+     Tarea: Títulos, subtítulo y botones de modo PvE/PvP
+──────────────────────────────── -->
+<div id="start-screen" class="show">
+  <div class="title-mortal">Piedra</div>
+  <div class="title-mortal" style="margin-top:-20px">Papel</div>
+  <div class="title-mortal" style="margin-top:-20px">Tijera</div>
+  <div class="subtitle-kombat">Edición Mortal</div>
+  <div class="mode-selection">
+    <button class="mode-btn pve" id="btn-pve">⚡ 1 Jugador (VS Máquina) ⚡</button>
+    <button class="mode-btn pvp" id="btn-pvp">🩸 2 Jugadores (Local) 🩸</button>
+  </div>
+</div>
+
+<!-- ───── BACKGROUND SCENE & EMBERS ─────
+     Autor: Gabriel Maculus — Developer
+     Tarea: HTML del fondo anim. y contenedor de partículas de brasa
+──────────────────────────────────────── -->
+<div id="scene"></div>
+<div id="embers"></div>
+
+<!-- ───── GAME ───── -->
+<div id="game">
+
+  <!-- HUD (Barras de vida y contador de ronda)
+       Autor: Kevin Castilla — Developer
+       Tarea: Barras de HP, nombres de jugadores y contador de ronda -->
+  <div id="hud">
+    <!-- Jugador 1 -->
+    <div class="fighter-hud p1">
+      <div class="fighter-name" id="name-p1">⚡ Jugador 1</div>
+      <div class="hp-bar-wrap" id="hp-wrap-p1">
+        <div class="hp-bar full" id="hp-bar-p1"></div>
+      </div>
+    </div>
+
+    <!-- Contador de ronda -->
+    <div id="round-display">
+      <div id="round-label">Ronda</div>
+      <div id="round-number">1</div>
+      <div class="round-pips" id="round-pips"></div>
+    </div>
+
+    <!-- Jugador 2 / PC -->
+    <div class="fighter-hud p2">
+      <div class="fighter-name" id="name-p2">Jugador 2 ⚡</div>
+      <div class="hp-bar-wrap" id="hp-wrap-p2">
+        <div class="hp-bar full" id="hp-bar-p2"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Anuncio -->
+  <div id="announce">⚔ Elige tu arma ⚔</div>
+
+  <!-- Escenario (avatares y VS badge)
+       Autor: Lautaro Martinez — Scrum Master / Developer
+       Tarea: Avatares de jugadores y badge VS central -->
+  <div id="stage">
+    <div class="fighter-display p1">
+      <div class="fighter-avatar" id="avatar-p1">
+        <span class="hidden-choice">?</span>
+      </div>
+      <div class="choice-label" id="label-p1">—</div>
+    </div>
+
+    <div id="vs-badge"><span>VS</span></div>
+
+    <div class="fighter-display p2">
+      <div class="fighter-avatar" id="avatar-p2">
+        <span class="hidden-choice">?</span>
+      </div>
+      <div class="choice-label" id="label-p2">—</div>
+    </div>
+  </div>
+
+  <!-- Flash de resultado -->
+  <div id="result-flash"></div>
+
+  <!-- Panel de elección (botones runa y turno)
+       Autores: Ezequiel Diaz (Developer) — botones runa y lógica de turno
+                Jose Rodriguez (Developer) — pantalla de espera PvP -->
+  <div id="choice-panel">
+    <div class="player-turn-label p1-turn" id="turn-label">⚡ Jugador 1 — Elige tu destino ⚡</div>
+
+    <div class="choices-row" id="choices-row">
+      <button class="rune-btn" data-choice="piedra">
+        <span class="btn-emoji">🪨</span>
+        <span class="btn-label">Piedra</span>
+      </button>
+      <button class="rune-btn" data-choice="papel">
+        <span class="btn-emoji">✋</span>
+        <span class="btn-label">Papel</span>
+      </button>
+      <button class="rune-btn" data-choice="tijera">
+        <span class="btn-emoji">✂️</span>
+        <span class="btn-label">Tijera</span>
+      </button>
+    </div>
+
+    <!-- Pantalla de espera entre turnos (solo PvP)
+         Autor: Jose Rodriguez — Developer
+         Tarea: #waiting-screen, texto de espera y botón confirmar PvP -->
+    <div id="waiting-screen">
+      <div class="waiting-text">Pasa el dispositivo al oponente...</div>
+      <button class="confirm-btn" id="confirm-btn">⚔ Jugador 2 — LISTO ⚔</button>
+    </div>
+  </div>
+
+  <!-- Log de combate y historial de rondas
+       Autor: Mariano Rasguido — Developer
+       Tarea: #combat-log, #history y botón reset -->
+  <div id="combat-log"></div>
+
+  <!-- Botones de control en partida -->
+  <div id="game-controls">
+    <button id="restart-btn">🔄 Reiniciar Partida</button>
+    <button id="reset-btn">↩ Volver al Menú</button>
+  </div>
+
+  <!-- Historial -->
+  <div id="history"></div>
+
+</div>
+
+<!-- PANTALLA DE GAME OVER
+     Autora: Samira Baz — Developer
+     Tarea: Nombre del ganador, FATALIDAD y botones de revancha/menú -->
+<div id="gameover">
+  <div id="gameover-winner"></div>
+  <div id="gameover-sub">FATALIDAD</div>
+  <div class="gameover-buttons">
+    <button class="rematch-btn" id="rematch-btn">⚔ REVANCHA ⚔</button>
+    <button class="menu-btn" id="menu-btn">↩ Volver al Menú</button>
+  </div>
+</div>
+
+<script src="p-p-t.js"></script>
+</body>
+</html>
