@@ -9,6 +9,7 @@
 <style>
 /* ═══════════════════════════════════════════
    ROOT  reseteo y variables de color
+   Autor: Los Sin Chamba
 ═══════════════════════════════════════════ */
 :root {
   --blood:     #8b0000;
@@ -42,7 +43,9 @@ body {
 }
 
 /* ═══════════════════════════════════════════
-   BACKGROUND — VOLCAN TEMPLE DEL FONDO 
+   BACKGROUND — VOLCAN TEMPLE DEL FONDO
+   Autor: Gabriel Maculus — Developer
+   Tarea: Gradientes de volcán, lava y animación lavaFlicker
 ═══════════════════════════════════════════ */
 #scene {
   position: fixed; inset: 0; z-index: 0;
@@ -85,6 +88,8 @@ body {
 
 /* ═══════════════════════════════════════════
    PARTÍCULAS DE BRASA
+   Autor: Gabriel Maculus — Developer
+   Tarea: Animación emberRise y estilos de .ember
 ═══════════════════════════════════════════ */
 #embers {
   position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden;
@@ -591,6 +596,34 @@ body {
 }
 
 /* Botón de reset en el juego */
+#game-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+  align-items: center;
+  justify-content: center;
+}
+
+#restart-btn {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+  letter-spacing: 0.2em;
+  background: transparent;
+  color: var(--fire-2);
+  border: 1px solid var(--fire-2)66;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 3px;
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+#restart-btn:hover {
+  color: var(--fire-1);
+  border-color: var(--fire-1);
+  box-shadow: 0 0 10px var(--fire-1)66;
+}
+
 #reset-btn {
   font-family: 'Cinzel', serif;
   font-size: clamp(0.55rem, 1.5vw, 0.7rem);
@@ -703,7 +736,10 @@ body.shake { animation: screenShake 0.5s ease-out; }
 </head>
 <body>
 
-<!-- ───── PANTALLA DE INICIO ───── -->
+<!-- ───── PANTALLA DE INICIO ─────
+     Autora: Samira Baz — Developer
+     Tarea: Títulos, subtítulo y botones de modo PvE/PvP
+──────────────────────────────── -->
 <div id="start-screen" class="show">
   <div class="title-mortal">Piedra</div>
   <div class="title-mortal" style="margin-top:-20px">Papel</div>
@@ -715,14 +751,19 @@ body.shake { animation: screenShake 0.5s ease-out; }
   </div>
 </div>
 
-<!-- ───── BACKGROUND SCENE ───── -->
+<!-- ───── BACKGROUND SCENE & EMBERS ─────
+     Autor: Gabriel Maculus — Developer
+     Tarea: HTML del fondo anim. y contenedor de partículas de brasa
+──────────────────────────────────────── -->
 <div id="scene"></div>
 <div id="embers"></div>
 
 <!-- ───── GAME ───── -->
 <div id="game">
 
-  <!-- HUD -->
+  <!-- HUD (Barras de vida y contador de ronda)
+       Autor: Kevin Castilla — Developer
+       Tarea: Barras de HP, nombres de jugadores y contador de ronda -->
   <div id="hud">
     <!-- Jugador 1 -->
     <div class="fighter-hud p1">
@@ -753,7 +794,9 @@ body.shake { animation: screenShake 0.5s ease-out; }
   <!-- Anuncio -->
   <div id="announce">⚔ Elige tu arma ⚔</div>
 
-  <!-- Escenario -->
+  <!-- Escenario (avatares y VS badge)
+       Autor: Lautaro Martinez — Scrum Master / Developer
+       Tarea: Avatares de jugadores y badge VS central -->
   <div id="stage">
     <div class="fighter-display p1">
       <div class="fighter-avatar" id="avatar-p1">
@@ -775,7 +818,9 @@ body.shake { animation: screenShake 0.5s ease-out; }
   <!-- Flash de resultado -->
   <div id="result-flash"></div>
 
-  <!-- Panel de elección -->
+  <!-- Panel de elección (botones runa y turno)
+       Autores: Ezequiel Diaz (Developer) — botones runa y lógica de turno
+                Jose Rodriguez (Developer) — pantalla de espera PvP -->
   <div id="choice-panel">
     <div class="player-turn-label p1-turn" id="turn-label">⚡ Jugador 1 — Elige tu destino ⚡</div>
 
@@ -794,25 +839,34 @@ body.shake { animation: screenShake 0.5s ease-out; }
       </button>
     </div>
 
-    <!-- Pantalla de espera entre turnos (solo PvP) -->
+    <!-- Pantalla de espera entre turnos (solo PvP)
+         Autor: Jose Rodriguez — Developer
+         Tarea: #waiting-screen, texto de espera y botón confirmar PvP -->
     <div id="waiting-screen">
       <div class="waiting-text">Pasa el dispositivo al oponente...</div>
       <button class="confirm-btn" id="confirm-btn">⚔ Jugador 2 — LISTO ⚔</button>
     </div>
   </div>
 
-  <!-- Log de combate -->
+  <!-- Log de combate y historial de rondas
+       Autor: Mariano Rasguido — Developer
+       Tarea: #combat-log, #history y botón reset -->
   <div id="combat-log"></div>
 
-  <!-- Botón de reset en partida -->
-  <button id="reset-btn">↩ Volver al Menú</button>
+  <!-- Botones de control en partida -->
+  <div id="game-controls">
+    <button id="restart-btn">🔄 Reiniciar Partida</button>
+    <button id="reset-btn">↩ Volver al Menú</button>
+  </div>
 
   <!-- Historial -->
   <div id="history"></div>
 
 </div>
 
-<!-- PANTALLA DE GAME OVER -->
+<!-- PANTALLA DE GAME OVER
+     Autora: Samira Baz — Developer
+     Tarea: Nombre del ganador, FATALIDAD y botones de revancha/menú -->
 <div id="gameover">
   <div id="gameover-winner"></div>
   <div id="gameover-sub">FATALIDAD</div>

@@ -1,5 +1,7 @@
 /* ═══════════════════════════════════════════
    1. PARTÍCULAS DE BRASA
+   Autor: Gabriel Maculus — Developer
+   Tarea: Generación dinámica de brasas animadas (spawnEmbers)
 ═══════════════════════════════════════════ */
 (function spawnEmbers() {
   const container = document.getElementById('embers');
@@ -33,6 +35,8 @@
 
 /* ═══════════════════════════════════════════
    2. DEFINICIÓN DE ARMAS
+   Autor: Leandro Orozco — Developer
+   Tarea: Objeto CHOICES y COMBAT_LINES con reglas del juego
 ═══════════════════════════════════════════ */
 const CHOICES = {
   piedra: { emoji: '🪨', name: 'Piedra', beats: 'tijera' },
@@ -48,6 +52,8 @@ const COMBAT_LINES = {
 
 /* ═══════════════════════════════════════════
    3. ESTADO DEL JUEGO
+   Autor: Leandro Orozco — Developer
+   Tarea: Objeto state y constante MAX_HP
 ═══════════════════════════════════════════ */
 const MAX_HP = 4;
 const state = {
@@ -62,6 +68,8 @@ const state = {
 
 /* ═══════════════════════════════════════════
    4. REFERENCIAS AL DOM
+   Autor: Lautaro Martinez — Scrum Master / Developer
+   Tarea: Centralización de referencias al DOM con helper $
 ═══════════════════════════════════════════ */
 const $ = id => document.getElementById(id);
 
@@ -90,9 +98,12 @@ const gameoverWin = $('gameover-winner');
 const rematchBtn  = $('rematch-btn');
 const menuBtn     = $('menu-btn');
 const resetBtn    = $('reset-btn');
+const restartBtn  = $('restart-btn');
 
 /* ═══════════════════════════════════════════
    5. SELECCIÓN DE MODO Y ARRANQUE
+   Autor: Samira Baz — Developer
+   Tarea: startGame(), listeners de modos PvE y PvP
 ═══════════════════════════════════════════ */
 function startGame(mode) {
   state.mode = mode;
@@ -114,6 +125,8 @@ btnPvp.addEventListener('click', () => startGame('pvp'));
 
 /* ═══════════════════════════════════════════
    6. LÓGICA DE UI Y BARRAS DE VIDA
+   Autor: Kevin Castilla — Developer
+   Tarea: updateHPBars(), setAvatar(), shakeScreen(), triggerDamageFlash()
 ═══════════════════════════════════════════ */
 function updateHPBars() {
   ['p1', 'p2'].forEach(p => {
@@ -203,14 +216,22 @@ function showResultFlash(text, cssClass) {
 
 /* ═══════════════════════════════════════════
    7. IA DE LA MÁQUINA
+   Autor: Jose Rodriguez — Developer
+   Tarea: getPcChoice() y setAnnounce()
 ═══════════════════════════════════════════ */
 function getPcChoice() {
   const keys = Object.keys(CHOICES);
+  const rand  = Math.random();
+  // 35 % de las veces la PC elige el movimiento que PIERDE contra el jugador
+  if (rand < 0.35) return CHOICES[state.p1Choice].beats;
+  // 65 % restante: elección aleatoria (el jugador gana ~1/3 de estas)
   return keys[Math.floor(Math.random() * keys.length)];
 }
 
 /* ═══════════════════════════════════════════
    8. RESOLVER COMBATE
+   Autor: Mariano Rasguido — Developer
+   Tarea: resolveCombat(), addHistoryEntry(), showResultFlash()
 ═══════════════════════════════════════════ */
 function resolveCombat() {
   state.phase = 'resolving';
@@ -263,6 +284,8 @@ function resolveCombat() {
 
 /* ═══════════════════════════════════════════
    9. FLUJO DEL JUEGO
+   Autor: Ezequiel Diaz — Developer
+   Tarea: nextRound(), showChoicesFor(), showGameOver()
 ═══════════════════════════════════════════ */
 function nextRound() {
   state.round++;
@@ -308,6 +331,8 @@ function showGameOver() {
 
 /* ═══════════════════════════════════════════
    10. LISTENERS & BOTONES RUNA
+   Autor: Ezequiel Diaz — Developer
+   Tarea: Event listeners de .rune-btn para P1 y P2, lógica de turno PvP
 ═══════════════════════════════════════════ */
 document.querySelectorAll('.rune-btn').forEach(btn => {
   btn.addEventListener('click', function () {
@@ -351,6 +376,8 @@ document.querySelectorAll('.rune-btn').forEach(btn => {
 
 /* ═══════════════════════════════════════════
    11. BOTÓN CONFIRMAR (PvP)
+   Autor: Jose Rodriguez — Developer
+   Tarea: confirmBtn listener, transición de turno P1 → P2
 ═══════════════════════════════════════════ */
 confirmBtn.addEventListener('click', function () {
   state.phase = 'p2-choose';
@@ -362,6 +389,8 @@ confirmBtn.addEventListener('click', function () {
 
 /* ═══════════════════════════════════════════
    12. RESET / REMATCH / MENÚ
+   Autor: Mariano Rasguido — Developer
+   Tarea: resetGameUI(), volverAlMenu(), listeners de revancha y menú
 ═══════════════════════════════════════════ */
 function resetGameUI() {
   Object.assign(state, {
@@ -395,3 +424,4 @@ function volverAlMenu() {
 rematchBtn.addEventListener('click', resetGameUI);
 menuBtn.addEventListener('click', volverAlMenu);
 resetBtn.addEventListener('click', volverAlMenu);
+restartBtn.addEventListener('click', resetGameUI);
