@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>LA LEYENDA DE AANG: AVATAR</title>
+    </head>
+    <body>
+        <h1>AVATAR 🔥 💧 🌱 🌪</h1> <!--El h1 es estático, se utiliza solo una vez-->
+        
+        <section id="seleccionar-personaje">
+            <h2>Elige tu Personaje</h2>
+
+           <label for="zuko">Zuko</label>
+           <input type="radio" name="personaje" id="zuko"/>
+
+           <label for="katara">Katara</label>
+           <input type="radio" name="personaje" id="katara"/>
+
+           <label for="aang">Aang</label>
+           <input type="radio" name="personaje" id="aang"/>
+
+           <label for="toph">Toph</label>
+           <input type="radio" name="personaje" id="toph"/>
+
+
+            <button id="boton-personaje">Seleccionar</button> <!--Boton para seleccionar personaje-->
+        </section>
+
+        <section id="seleccionar-ataque">
+            <h2>Elige tu ataque</h2> <!--h2 se puede utilizar varias veces-->
+            <p>Tu personaje tiene <span>3</span> vidas</p> <!--Esto debe ser dinamico, necesitamos que cambie-->
+            <p>Los personajes del enemigo tienen <span>3</span> vidas</p> <!--Con la etiqueta spam vamos a modificar el 3 con JS-->
+            <p>
+                <button id="boton-fuego">Fuego 🔥</button>
+                <button id="boton-agua">Agua 💧</button>
+                <button id="boton-tierra">Tierra 🌱</button>
+                <button id="boton-aire">Aire 🌪</button>
+            </p>
+        </section>
+
+        <section id="mensajes"> <!--Será un parrafo dinamico-->
+            <p>Tu personaje atacó con todo el poder del FUEGO, el personaje del enemigo atacó con el medio poder de la TIERRA - GANASTE</p>
+        </section>
+
+        <section id="reiniciar">
+            <button id="boton-reiniciar">Reiniciar</button>
+        </section>
+        <script src="./js/avatar.js"></script>
+    </body>
+</html>
