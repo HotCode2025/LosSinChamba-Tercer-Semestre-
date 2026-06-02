@@ -1,6 +1,6 @@
 /**
  * Torres de Hanoi — Algoritmo Recursivo
- * LGL Solutions — Tarea grupal
+ * Los sin chamba — Tarea grupal
  *
  * Reglas del problema:
  *  - n discos apilados en el poste A (mayor abajo, menor arriba)
