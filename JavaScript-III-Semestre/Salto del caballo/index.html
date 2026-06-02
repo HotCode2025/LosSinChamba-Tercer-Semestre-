@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Salto del Caballo - Algoritmo de Backtracking</title>
+    <style>
+        /* Estilos Generales y Estructura */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f6;
+            color: #222;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Contenedor de la aplicación */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Controles */
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #4338ca;
+        }
+
+        button:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* El Tablero de Ajedrez */
+        .tablero-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            background-color: #fff;
+        }
+
+        td {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.15s ease-in-out;
+            border: 1px solid #ddd;
+        }
+
+        /* Colores del tablero de ajedrez tradicional */
+        .casilla-clara {
+            background-color: #f0d9b5;
+        }
+
+        .casilla-oscura {
+            background-color: #b58863;
+        }
+
+        /* Estados dinámicos del caballo */
+        .visitada {
+            background-color: #2e7d32 !important; /* Verde si el paso es firme */
+            color: #ffffff;
+        }
+
+        .actual {
+            background-color: #e65100 !important; /* Naranja para resaltar la posición actual */
+            color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.5);
+        }
+
+        /* Estado informativo */
+        #status {
+            font-weight: 600;
+            margin-top: 15px;
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>El Salto del Caballo</h1>
+    <p>Visualización interactiva mediante Backtracking y la Heurística de Warnsdorff.</p>
+
+    <div class="controls">
+        <button id="btnIniciar" onclick="ejecutarSimulacion()">Iniciar Recorrido</button>
+        <div id="status">Listo para comenzar</div>
+    </div>
+
+    <div class="tablero-container">
+        <table id="tableroHTML"></table>
+    </div>
+</div>
+
+<script>
+    const N = 8;
+    // Movimientos del caballo en los ejes X e Y
+    const movX = [2, 1, -1, -2, -2, -1, 1, 2];
+    const movY = [1, 2, 2, 1, -1, -2, -2, -1];
+
+    let matrizTablero = [];
+
+    // Genera el tablero visual en el HTML antes de empezar a calcular
+    function inicializarTableroVisual() {
+        const tabla = document.getElementById("tableroHTML");
+        tabla.innerHTML = ""; // Limpiar contenido previo
+        matrizTablero = Array.from({ length: N }, () => Array(N).fill(-1));
+
+        for (let i = 0; i < N; i++) {
+            let fila = document.createElement("tr");
+            for (let j = 0; j < N; j++) {
+                let celda = document.createElement("td");
+                celda.id = `celda-${i}-${j}`;
+                
+                // Patrón alternado de ajedrez usando la paridad de la suma de índices
+                if ((i + j) % 2 === 0) {
+                    celda.classList.add("casilla-clara");
+                } else {
+                    celda.classList.add("casilla-oscura");
+                }
+                
+                fila.appendChild(celda);
+            }
+            tabla.appendChild(fila);
+        }
+    }
+
+    // Actualiza los colores y el texto de una celda específica en la pantalla
+    function actualizarCeldaVisual(x, y, valor, esActual = false) {
+        const celda = document.getElementById(`celda-${x}-${y}`);
+        if (valor === -1) {
+            celda.innerText = "";
+            celda.classList.remove("visitada", "actual");
+        } else {
+            celda.innerText = String(valor).padStart(2, '0');
+            celda.classList.add("visitada");
+            
+            if (esActual) {
+                celda.classList.add("actual");
+            } else {
+                celda.classList.remove("actual");
+            }
+        }
+    }
+
+    // Función auxiliar para crear pausas artificiales y poder ver la animación
+    const pausar = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    // Validación lógica: ¿El caballo puede pisar esta celda?
+    function esMovimientoValido(x, y) {
+        return (x >= 0 && x < N && y >= 0 && y < N && matrizTablero[x][y] === -1);
+    }
+
+    // Optimización: Cuenta las opciones futuras desde una posición dada
+    function contarMovimientosPosibles(x, y) {
+        let cuenta = 0;
+        for (let i = 0; i < 8; i++) {
+            if (esMovimientoValido(x + movX[i], y + movY[i])) {
+                cuenta++;
+            }
+        }
+        return cuenta;
+    }
+
+    // Algoritmo principal asíncrono con Backtracking + Optimización
+    async function resolverSaltoCaballo(x, y, saltoActual) {
+        // Condición de éxito: Completó las 64 casillas
+        if (saltoActual === N * N) {
+            return true;
+        }
+
+        let proximosMovimientos = [];
+        for (let i = 0; i < 8; i++) {
+            let sigX = x + movX[i];
+            let sigY = y + movY[i];
+            
+            if (esMovimientoValido(sigX, sigY)) {
+                let salidas = contarMovimientosPosibles(sigX, sigY);
+                proximosMovimientos.push({ x: sigX, y: sigY, salidas: salidas });
+            }
+        }
+
+        // Regla de Warnsdorff: Ordenamos de menor a mayor cantidad de salidas futuras
+        proximosMovimientos.sort((a, b) => a.salidas - b.salidas);
+
+        // Bucle de decisiones (Vuelta atrás)
+        for (let i = 0; i < proximosMovimientos.length; i++) {
+            let nxtX = proximosMovimientos[i].x;
+            let nxtY = proximosMovimientos[i].y;
+
+            // Registrar movimiento en memoria y pantalla
+            matrizTablero[nxtX][nxtY] = saltoActual;
+            actualizarCeldaVisual(x, y, matrizTablero[x][y], false); // La anterior deja de ser la actual
+            actualizarCeldaVisual(nxtX, nxtY, saltoActual, true);    // Esta nueva celda es la actual
+            
+            await pausar(100); // Pausa de 100 milisegundos para apreciar el movimiento
+
+            // Intento recursivo con el siguiente salto
+            if (await resolverSaltoCaballo(nxtX, nxtY, saltoActual + 1)) {
+                return true;
+            }
+
+            // BACKTRACKING: Si falló, borramos el registro y retrocedemos
+            matrizTablero[nxtX][nxtY] = -1;
+            actualizarCeldaVisual(nxtX, nxtY, -1, false);
+            actualizarCeldaVisual(x, y, matrizTablero[x][y], true); // La posición previa vuelve a ser la activa
+            
+            await pausar(100);
+        }
+
+        return false;
+    }
+
+    // Orquestador de la simulación ligado al botón
+    async function ejecutarSimulacion() {
+        const btn = document.getElementById("btnIniciar");
+        const status = document.getElementById("status");
+        
+        btn.disabled = true;
+        status.innerText = "Calculando el camino óptimo...";
+        
+        inicializarTableroVisual();
+
+        // Posición inicial (0,0) con el paso inicial '0'
+        matrizTablero[0][0] = 0;
+        actualizarCeldaVisual(0, 0, 0, true);
+
+        if (await resolverSaltoCaballo(0, 0, 1)) {
+            // Quitamos el color de "activo" al último casillero al finalizar con éxito
+            const ultimaCelda = document.querySelector(".actual");
+            if (ultimaCelda) ultimaCelda.classList.remove("actual");
+            status.innerText = "¡Completado con éxito! El caballo visitó las 64 casillas.";
+        } else {
+            status.innerText = "No se encontró una solución válida.";
+        }
+        
+        btn.disabled = false;
+    }
+
+    // Inicialización del tablero al cargar la página
+    inicializarTableroVisual();
+</script>
+
+</body>
+</html>
