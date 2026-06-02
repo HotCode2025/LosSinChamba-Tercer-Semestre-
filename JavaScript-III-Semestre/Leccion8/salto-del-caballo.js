@@ -1,6 +1,6 @@
 /**
  * Salto del Caballo (Knight's Tour)
- * LGL Solutions — Tarea grupal
+ * Los sin chamba — Tarea grupal
  *
  * Problema:
  *   Dado un tablero de N×N, encontrar una secuencia de movimientos de un
