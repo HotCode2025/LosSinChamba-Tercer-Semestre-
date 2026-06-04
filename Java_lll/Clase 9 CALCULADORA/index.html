@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Calculadora · Glass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --size: clamp(60px, 18vw, 78px);
+    --gap: 12px;
+    --glass:rgba(255,255,255,.10);
+    --glass-strong:rgba(255,255,255,.18);
+    --line:rgba(255,255,255,.22);
+    --txt:#ffffff;
+    --txt-soft:rgba(255,255,255,.6);
+    --cyan:rgba(86,209,247,.40);
+    --cyan-line:rgba(86,209,247,.6);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;}
+  html,body{height:100%;}
+  body{
+    font-family:"Outfit", ui-sans-serif, system-ui, sans-serif;
+    background:#0a0d1a;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px 16px; min-height:100%; overflow:hidden; position:relative;
+  }
+  /* luces de fondo para que el vidrio refracte */
+  .orb{ position:fixed; border-radius:50%; filter:blur(90px); opacity:.85; z-index:0; }
+  .o1{ width:46vmax; height:46vmax; background:#7c3aed; top:-12vmax; left:-10vmax; animation:f1 16s ease-in-out infinite; }
+  .o2{ width:40vmax; height:40vmax; background:#06b6d4; bottom:-14vmax; right:-8vmax; animation:f2 18s ease-in-out infinite; }
+  .o3{ width:34vmax; height:34vmax; background:#ec4899; bottom:6vmax; left:18vmax; opacity:.6; animation:f3 20s ease-in-out infinite; }
+  @keyframes f1{50%{transform:translate(8vmax,6vmax) scale(1.1);}}
+  @keyframes f2{50%{transform:translate(-7vmax,-5vmax) scale(1.08);}}
+  @keyframes f3{50%{transform:translate(5vmax,-6vmax) scale(1.12);}}
+
+  .window{
+    position:relative; z-index:1;
+    background:var(--glass);
+    backdrop-filter:blur(26px) saturate(170%);
+    -webkit-backdrop-filter:blur(26px) saturate(170%);
+    border:1px solid var(--line);
+    border-radius:30px;
+    padding:22px 18px 20px;
+    width:calc(var(--size)*4 + var(--gap)*3 + 36px);
+    box-shadow:0 30px 70px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.35);
+  }
+  .display{
+    text-align:right; padding:8px 12px 20px;
+    display:flex; flex-direction:column; align-items:flex-end; overflow:hidden;
+  }
+  .expr{ color:var(--txt-soft); font-size:24px; font-weight:300; min-height:30px; line-height:1.1; margin-bottom:8px; white-space:nowrap; }
+  .result{ color:var(--txt); font-weight:400; font-size:72px; line-height:1; text-shadow:0 2px 12px rgba(0,0,0,.25); }
+  .buttons{ display:grid; grid-template-columns:repeat(4, var(--size)); gap:var(--gap); }
+  button{
+    width:var(--size); height:var(--size); border-radius:18px;
+    font-family:inherit; font-size:28px; font-weight:400; color:var(--txt); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--glass);
+    border:1px solid var(--line);
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.30);
+    transition:background .14s, transform .05s, box-shadow .14s, color .14s;
+  }
+  button:active{ transform:translateY(1px); }
+  .num:active{ background:var(--glass-strong); }
+  .fn{ background:var(--glass-strong); font-weight:500; }
+  .fn:active{ background:rgba(255,255,255,.26); }
+  .del{ color:#ffd0d8; }
+  .op{ background:var(--cyan); border-color:var(--cyan-line); font-size:32px; }
+  .op:active{ background:rgba(86,209,247,.55); }
+  .op.active{ background:rgba(86,209,247,.92); color:#06222e; box-shadow:0 0 22px rgba(86,209,247,.5), inset 0 1px 0 rgba(255,255,255,.5); }
+  .eq{
+    font-size:32px; font-weight:600; color:#fff;
+    background:linear-gradient(135deg, rgba(86,209,247,.55), rgba(124,58,237,.55));
+    border-color:rgba(255,255,255,.4);
+  }
+  .eq:active{ background:linear-gradient(135deg, rgba(86,209,247,.75), rgba(124,58,237,.75)); }
+</style>
+</head>
+<body>
+  <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+
+  <div class="window">
+    <div class="display">
+      <div class="expr" id="expr"></div>
+      <div class="result" id="result">0</div>
+    </div>
+    <div class="buttons">
+      <button class="fn" data-action="clear">AC</button>
+      <button class="fn del" data-action="back">⌫</button>
+      <button class="fn" data-action="percent">%</button>
+      <button class="op" data-op="/">÷</button>
+
+      <button class="num" data-num="7">7</button>
+      <button class="num" data-num="8">8</button>
+      <button class="num" data-num="9">9</button>
+      <button class="op" data-op="*">×</button>
+
+      <button class="num" data-num="4">4</button>
+      <button class="num" data-num="5">5</button>
+      <button class="num" data-num="6">6</button>
+      <button class="op" data-op="-">−</button>
+
+      <button class="num" data-num="1">1</button>
+      <button class="num" data-num="2">2</button>
+      <button class="num" data-num="3">3</button>
+      <button class="op" data-op="+">+</button>
+
+      <button class="fn" data-action="sign">±</button>
+      <button class="num" data-num="0">0</button>
+      <button class="num" data-action="decimal">,</button>
+      <button class="eq" data-action="equals">=</button>
+    </div>
+  </div>
+
+<script>
+  const resultEl = document.getElementById('result');
+  const exprEl   = document.getElementById('expr');
+  let current = '0', first = null, operator = null;
+  let waiting = false, justEquated = false, frozenExpr = '';
+  const SYM = {'+':'+','-':'−','*':'×','/':'÷'};
+
+  function fmt(str){
+    if(str === 'Error') return str;
+    let neg = str.startsWith('-'); if(neg) str = str.slice(1);
+    let [int, dec] = str.split('.');
+    int = int.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    let out = dec !== undefined ? int + ',' + dec : int;
+    return (neg ? '-' : '') + out;
+  }
+  function calc(a,b,op){ switch(op){case '+':return a+b;case '-':return a-b;case '*':return a*b;case '/':return b===0?'Error':a/b;} }
+  function clearActive(){ document.querySelectorAll('.op.active').forEach(b=>b.classList.remove('active')); }
+
+  function render(){
+    const text = fmt(current);
+    resultEl.textContent = text;
+    const len = text.replace(/[.,-]/g,'').length;
+    resultEl.style.fontSize = (len>9?38:len>7?48:len>6?58:72) + 'px';
+    if(justEquated) exprEl.textContent = frozenExpr;
+    else if(operator !== null && first !== null)
+      exprEl.textContent = fmt(String(first)) + ' ' + SYM[operator] + (waiting ? '' : ' ' + fmt(current));
+    else exprEl.textContent = '';
+    document.querySelector('[data-action="clear"]').textContent = (current === '0' && first === null) ? 'AC' : 'C';
+  }
+  function inputNum(d){ justEquated=false; if(waiting){current=d;waiting=false;} else current = current==='0'?d:current+d; clearActive(); }
+  function inputDecimal(){ justEquated=false; if(waiting){current='0.';waiting=false;} else if(!current.includes('.')) current+='.'; clearActive(); }
+  function backspace(){
+    if(current==='Error'){ clear(); return; }
+    if(justEquated){ justEquated=false; waiting=false; }
+    if(waiting) return;
+    if(current.length<=1 || (current.startsWith('-')&&current.length===2)) current='0';
+    else current=current.slice(0,-1);
+    clearActive();
+  }
+  function handleOp(op, btn){
+    justEquated=false; const val=parseFloat(current);
+    if(operator && waiting){ operator=op; clearActive(); btn.classList.add('active'); render(); return; }
+    if(first===null){ first=val; }
+    else if(operator){ const res=calc(first,val,operator); current=(res==='Error')?'Error':String(res); first=(res==='Error')?null:res; }
+    waiting=true; operator=op; clearActive();
+    if(current!=='Error') btn.classList.add('active');
+    render();
+  }
+  function equals(){
+    if(operator===null||waiting) return;
+    const second=current; const res=calc(first,parseFloat(current),operator);
+    frozenExpr = fmt(String(first))+' '+SYM[operator]+' '+fmt(second)+' =';
+    current=(res==='Error')?'Error':String(res);
+    first=null; operator=null; waiting=true; justEquated=true; clearActive();
+  }
+  function clear(){
+    justEquated=false;
+    if(current!=='0'){ current='0'; } else { first=null; operator=null; }
+    waiting=false; clearActive();
+  }
+
+  document.querySelector('.buttons').addEventListener('click', e => {
+    const b=e.target.closest('button'); if(!b) return;
+    if(current==='Error' && !['clear','back'].includes(b.dataset.action)) return;
+    if(b.dataset.num) inputNum(b.dataset.num);
+    else if(b.dataset.op){ handleOp(b.dataset.op, b); return; }
+    else if(b.dataset.action==='decimal') inputDecimal();
+    else if(b.dataset.action==='equals') equals();
+    else if(b.dataset.action==='clear') clear();
+    else if(b.dataset.action==='back') backspace();
+    else if(b.dataset.action==='sign'){ justEquated=false; if(current!=='0') current=current.startsWith('-')?current.slice(1):'-'+current; }
+    else if(b.dataset.action==='percent'){ justEquated=false; current=String(parseFloat(current)/100); }
+    render();
+  });
+
+  document.addEventListener('keydown', e => {
+    const k=e.key;
+    if(/\d/.test(k)) inputNum(k);
+    else if(k==='+'||k==='-'||k==='*'||k==='/'){ handleOp(k, document.querySelector(`[data-op="${k}"]`)); return; }
+    else if(k==='Enter'||k==='='){ e.preventDefault(); equals(); }
+    else if(k==='Backspace') backspace();
+    else if(k==='Escape') clear();
+    else if(k===','||k==='.') inputDecimal();
+    else return;
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
