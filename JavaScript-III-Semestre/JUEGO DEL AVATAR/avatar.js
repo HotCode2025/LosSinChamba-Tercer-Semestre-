@@ -70,6 +70,7 @@ const spanVidasJugador  = document.getElementById('vidas-jugador');
 const spanVidasEnemigo  = document.getElementById('vidas-enemigo');
 const spanNombreJugador = document.getElementById('nombre-jugador');
 const spanNombreEnemigo = document.getElementById('nombre-enemigo');
+const contenedorEnemigo = document.getElementById('contenedor-enemigo');
 
 // ====== FUNCIONES ======  [Todo el equipo — colaboración en Live Share]
 
@@ -93,7 +94,7 @@ function seleccionarPersonajeJugador() {
     jugador.emoji  = datos.emoji;
 
     // El enemigo se elige al azar.
-    asignarPersonajeAleatorioEnemigo();
+    aleatoria();
 
     // Actualizamos los nombres visibles en el panel de combate.
     spanNombreJugador.textContent = `${jugador.emoji} ${jugador.nombre}`;
@@ -111,14 +112,22 @@ function seleccionarPersonajeJugador() {
 
 /**
  * Elige una clave aleatoria del objeto "personajes"
- * y la asigna al enemigo.
+ * y la asigna al enemigo, mostrándolo con innerHTML.
  */
-function asignarPersonajeAleatorioEnemigo() {
+function aleatoria() {
     const claves = Object.keys(personajes);                       // ['zuko', 'katara', 'aang', 'toph']
-    const aleatoria = claves[Math.floor(Math.random() * claves.length)];
-    const datos = personajes[aleatoria];
+    const aleatoriaId = claves[Math.floor(Math.random() * claves.length)];
+    const datos = personajes[aleatoriaId];
     enemigo.nombre = datos.nombre;
     enemigo.emoji  = datos.emoji;
+
+    // Agregamos el enemigo con innerHTML
+    contenedorEnemigo.innerHTML = `
+        <div class="enemigo-card">
+            <span class="emoji">${enemigo.emoji}</span>
+            <span class="nombre">${enemigo.nombre}</span>
+        </div>
+    `;
 }
 
 /**
@@ -210,6 +219,7 @@ function reiniciar() {
 
     // Limpiamos UI.
     contenedorMensajes.innerHTML = '';
+    contenedorEnemigo.innerHTML = '';
     actualizarVidas();
     document.querySelectorAll('input[name="personaje"]').forEach(i => i.checked = false);
     document.querySelectorAll('#seleccionar-ataque button').forEach(btn => btn.disabled = false);
