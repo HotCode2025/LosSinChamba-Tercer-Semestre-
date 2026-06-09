@@ -279,5 +279,33 @@ button:disabled {
     color: var(--ink);
 }
 
+#reglamento .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+#reglamento h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    color: var(--amber-soft);
+}
+
+#reglamento ul,
+#reglamento ol {
+    padding-left: 1rem;
+    color: var(--ink-dim);
+}
+
+#reglamento li {
+    margin-bottom: 0.65rem;
+    line-height: 1.5;
+}
+
+#reglamento li::marker {
+    color: var(--amber);
+}
+
 /* ====== UTILIDADES ====== */
 .oculto { display: none; }
