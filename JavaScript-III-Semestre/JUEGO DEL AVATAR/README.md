@@ -14,6 +14,14 @@ Un juego de combate por turnos inspirado en *Avatar: La Leyenda de Aang*, donde 
 6. **Gana** quien deje al otro sin vidas primero.
 7. Podés **reiniciar** el combate en cualquier momento.
 
+## 🌀 Poderes que se pueden usar
+- **Fuego** 🔥: vence a Aire y pierde contra Agua.
+- **Agua** 💧: vence a Fuego y pierde contra Tierra.
+- **Tierra** 🌱: vence a Agua y pierde contra Aire.
+- **Aire** 🌪️: vence a Tierra y pierde contra Fuego.
+
+> El jugador elige un ataque con los botones de combate, y el enemigo selecciona su ataque de forma aleatoria.
+
 ### ⚔️ Tabla de ventajas (estilo piedra-papel-tijera)
 
 | Ataque     | Vence a   |
@@ -22,6 +30,19 @@ Un juego de combate por turnos inspirado en *Avatar: La Leyenda de Aang*, donde 
 | 🌱 Tierra  | 💧 Agua   |
 | 🌪️ Aire    | 🌱 Tierra |
 | 🔥 Fuego   | 🌪️ Aire   |
+
+---
+
+## 📜 Reglamento del juego
+1. Elegí tu personaje: Zuko, Katara, Aang o Toph.
+2. En cada turno elegí un ataque: Fuego, Agua, Tierra o Aire.
+3. El enemigo ataca con un elemento al azar.
+4. Si tu ataque vence al del enemigo, él pierde 1 vida.
+5. Si el ataque enemigo vence al tuyo, perdés 1 vida.
+6. Si hay empate, nadie pierde vida.
+7. El juego termina cuando alguno llega a 0 vidas.
+8. Si ambos quedan en 0 vidas al mismo tiempo, es un empate final.
+9. Podés reiniciar el combate cuando termine o si querés jugar otra vez.
 
 ---
 
