@@ -94,57 +94,44 @@ section .color:nth-child(3) {
 }
 
 .box .square {
-
     position: absolute;
-
+    /* Los centramos perfectamente respecto al login */
+    top: 50%;
+    left: 50%;
+    
     backdrop-filter: blur(5px);
-
     box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
-
     border: 1px solid rgba(255, 255, 255, 0.2);
-
     border-right: 1px solid rgba(255, 255, 255, 0.2);
-
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-
     background: rgba(255, 255, 255, 0.1);
-
     border-radius: 10px;
 
-    animation: animate 10s ease infinite;
-
-    animation-delay: calc(-1s * var(--i))
+    /* ANIMACIÓN DE ÓRBITA: 
+       Cada cuadrado empieza con un ángulo diferente gracias a su variable --i */
+    animation: orbitar 20s linear infinite;
+    animation-delay: calc(-4s * var(--i)); 
 }
 
-
-@keyframes animate {
-
-    0%,
+@keyframes orbitar {
+    0% {
+        /* translate(-50%, -50%) mantiene el centrado dinámico.
+           rotate(0deg) es el punto de partida.
+           translateX(300px) es la distancia del centro (el radio de la órbita).
+           rotate(0deg) final compensa para que el cuadrado no se ponga de cabeza si no quieres. */
+        transform: translate(-50%, -50%) rotate(0deg) translateX(280px) rotate(0deg);
+    }
     100% {
-
-        transform: translateY(-40px);
-
+        transform: translate(-50%, -50%) rotate(360deg) translateX(280px) rotate(-360deg);
     }
-
-    50% {
-
-        transform: translateY(40px);
-
-    }
-
 }
 
-.box .square:nth-child(1) {
+.box .square:nth-child(1) { width: 100px; height: 100px; }
+.box .square:nth-child(2) { width: 120px; height: 120px; animation-duration: 25s; } /* Este va más lento */
+.box .square:nth-child(3) { width: 80px; height: 80px;   animation-duration: 18s; } /* Este va más rápido */
+.box .square:nth-child(4) { width: 90px; height: 90px;   animation-duration: 22s; }
+.box .square:nth-child(5) { width: 60px; height: 60px;   z-index: -1; } /* Pasa por detrás */
 
-    top: -50px;
-
-    right: -60px;
-
-    width: 100px;
-
-    height: 100px;
-
-}
 
 .container {
 
