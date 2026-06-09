@@ -240,3 +240,4 @@ document.getElementById('boton-tierra').addEventListener('click', () => atacar('
 document.getElementById('boton-aire')  .addEventListener('click', () => atacar('aire'));
 
 document.getElementById('boton-reiniciar').addEventListener('click', reiniciar);
+
