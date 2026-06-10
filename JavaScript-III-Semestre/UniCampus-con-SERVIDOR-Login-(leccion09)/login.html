@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniCampus | Iniciar Sesión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            text-align: center;
+        }
+        .login-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .login-brand i {
+            color: var(--accent-1);
+        }
+        .login-input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .login-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .login-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+        .login-input-wrapper:focus-within {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .login-input-wrapper i {
+            color: var(--text-muted);
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        .login-input-wrapper input {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 100%;
+            outline: none;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        .toggle-link {
+            display: block;
+            margin-top: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.3s;
+            text-decoration: none;
+        }
+        .toggle-link:hover {
+            color: var(--primary);
+        }
+        .error-message {
+            color: var(--accent-4);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dynamic Background -->
+    <div class="bg-mesh">
+        <div class="blob color1"></div>
+        <div class="blob color2"></div>
+        <div class="blob color3"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="glass-card login-card" id="loginFormContainer">
+            <div class="login-brand">
+                <i class="ph-fill ph-student"></i>
+                <span>UniCampus</span>
+            </div>
+            <h2 style="margin-bottom: 5px; color: white;">¡Hola de nuevo!</h2>
+            <p style="color: var(--text-muted); margin-bottom: 25px;">Ingresa tus datos para acceder al portal.</p>
+            
+            <div class="error-message" id="loginError"></div>
+            
+            <form id="loginForm">
+                <div class="login-input-group">
+                    <label>Correo / Gmail</label>
+                    <div class="login-input-wrapper">
+                        <i class="ph ph-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="Ingresa tu correo" required>
+                    </div>
+                </div>
+                <div class="login-input-group">
+                    <label>Contraseña</label>
+                    <div class="login-input-wrapper">
+                        <i class="ph ph-lock-key"></i>
+                        <input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary login-btn" id="loginBtn">Iniciar Sesión</button>
+            </form>
+            
+            <a href="register.html" class="toggle-link">¿No tienes cuenta? Regístrate aquí</a>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniCampus | Portal Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Dynamic Background -->
+    <div class="bg-mesh">
+        <div class="blob color1"></div>
+        <div class="blob color2"></div>
+        <div class="blob color3"></div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
+        
+        <!-- SIDEBAR -->
+        <nav class="sidebar">
+            <div class="brand">
+                <i class="ph-fill ph-student"></i>
+                <span>UniCampus</span>
+            </div>
+            
+            <div class="nav-section">
+                <p class="nav-title">MENÚ PRINCIPAL</p>
+                <div class="nav-menu">
+                    <button class="nav-btn active" data-target="home"><i class="ph ph-squares-four"></i> Panel Principal</button>
+                    <button class="nav-btn" data-target="courses"><i class="ph ph-books"></i> Mis Cursos</button>
+                    <button class="nav-btn" data-target="classwork"><i class="ph ph-kanban"></i> Tareas</button>
+                    <button class="nav-btn" data-target="schedule"><i class="ph ph-calendar-blank"></i> Horario</button>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <p class="nav-title">HERRAMIENTAS</p>
+                <div class="nav-menu">
+                    <button class="nav-btn" data-target="grades"><i class="ph ph-exam"></i> Calificaciones</button>
+                    <button class="nav-btn" data-target="resources"><i class="ph ph-folder-star"></i> Recursos</button>
+                    <button class="nav-btn" data-target="timer"><i class="ph ph-timer"></i> Temporizador</button>
+                    <button class="nav-btn" data-target="jobs"><i class="ph ph-briefcase"></i> Bolsa de Trabajo <span class="badge">Nuevo</span></button>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Usuario">
+                    <div class="user-info">
+                        <h4 id="displayUsername">Estudiante</h4>
+                        <p>Student Pro</p>
+                    </div>
+                </div>
+                <button class="nav-btn" data-target="profile" style="margin-top: 10px; width: 100%;"><i class="ph ph-user"></i> Mi Perfil</button>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            
+            <header class="top-header">
+                <div class="search-bar">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar cursos, tareas, archivos...">
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" title="Español" style="font-size: 1rem; font-weight: bold; width: auto; padding: 0 15px;" disabled>ES</button>
+                    <button class="icon-btn"><i class="ph ph-bell"></i><span class="notification-dot"></span></button>
+                </div>
+            </header>
+
+            <div class="views-container">
+                <!-- SECTION 1: HOME -->
+                <section id="home" class="view-section active">
+                    <div class="header-title">
+                        <h1>¡Bienvenido de nuevo! 👋</h1>
+                        <p>Esto es lo que pasa con tus estudios hoy.</p>
+                    </div>
+                    
+                    <div class="grid-3">
+                        <div class="glass-card stat-card primary-gradient">
+                            <div class="stat-header"><h3>Asistencia</h3><i class="ph-fill ph-trend-up"></i></div>
+                            <div class="stat-value">85%</div>
+                            <div class="progress-bar"><div class="fill" style="width: 85%;"></div></div>
+                        </div>
+                        <div class="glass-card stat-card secondary-gradient">
+                            <div class="stat-header"><h3>Tareas Pendientes</h3><i class="ph-fill ph-lightning"></i></div>
+                            <div class="stat-value">3</div>
+                            <p class="stat-desc">2 para esta semana</p>
+                        </div>
+                        <div class="glass-card stat-card tertiary-gradient">
+                            <div class="stat-header"><h3>Promedio Actual</h3><i class="ph-fill ph-star"></i></div>
+                            <div class="stat-value">8.5</div>
+                            <p class="stat-desc">En el 15% mejor de la clase</p>
+                        </div>
+                    </div>
+
+                    <div class="grid-2" style="margin-top: 2rem;">
+                        <div class="glass-card">
+                            <h2 class="card-title">Actividad Reciente</h2>
+                            <ul class="activity-list">
+                                <li>
+                                    <div class="activity-icon blue"><i class="ph ph-check-circle"></i></div>
+                                    <div class="activity-text"><h4>Proyecto de Programación entregado</h4><p>Hace 2 horas</p></div>
+                                </li>
+                                <li>
+                                    <div class="activity-icon purple"><i class="ph ph-video-camera"></i></div>
+                                    <div class="activity-text"><h4>Te uniste al Zoom de Inglés II</h4><p>Ayer, 14:00</p></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="glass-card">
+                            <h2 class="card-title">Próximas Entregas</h2>
+                            <div class="deadline-item warning">
+                                <div class="date-box"><span>JUN</span><strong>07</strong></div>
+                                <div class="deadline-info"><h4>Proyecto en Video de Inglés</h4><p>Prof. Buccella</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 2: COURSES -->
+                <section id="courses" class="view-section">
+                    <div class="header-title">
+                        <h1>Mis Cursos</h1>
+                        <p>Tus materias del semestre actual.</p>
+                    </div>
+                    
+                    <div class="grid-3 courses-grid">
+                        <div class="course-card">
+                            <div class="course-img" style="background-image: url('https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=600&auto=format&fit=crop');">
+                                <div class="course-overlay"></div><span class="course-badge">Activo</span>
+                            </div>
+                            <div class="course-content">
+                                <h3>Base de datos ll 2026</h3>
+                                <p class="prof"><i class="ph ph-user"></i> Prof. Martinez</p>
+                                <div class="course-progress">
+                                    <div class="flex-between"><span>Progreso</span><span>70%</span></div>
+                                    <div class="progress-bar"><div class="fill" style="width: 70%; background: #3b82f6;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-img" style="background-image: url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=600&auto=format&fit=crop');">
+                                <div class="course-overlay"></div>
+                            </div>
+                            <div class="course-content">
+                                <h3>INGLES ll 2026</h3>
+                                <p class="prof"><i class="ph ph-user"></i> Prof. Buccella</p>
+                                <div class="course-progress">
+                                    <div class="flex-between"><span>Progreso</span><span>45%</span></div>
+                                    <div class="progress-bar"><div class="fill" style="width: 45%; background: #10b981;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-img" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop');">
+                                <div class="course-overlay"></div>
+                            </div>
+                            <div class="course-content">
+                                <h3>PROGRAMACION III LUNES 2025</h3>
+                                <p class="prof"><i class="ph ph-user"></i> Prof. Developer</p>
+                                <div class="course-progress">
+                                    <div class="flex-between"><span>Progreso</span><span>90%</span></div>
+                                    <div class="progress-bar"><div class="fill" style="width: 90%; background: #8b5cf6;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-img" style="background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=600&auto=format&fit=crop');">
+                                <div class="course-overlay"></div>
+                            </div>
+                            <div class="course-content">
+                                <h3>Programación III Miércoles 2025</h3>
+                                <p class="prof"><i class="ph ph-user"></i> Prof. Developer</p>
+                                <div class="course-progress">
+                                    <div class="flex-between"><span>Progreso</span><span>80%</span></div>
+                                    <div class="progress-bar"><div class="fill" style="width: 80%; background: #f59e0b;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-img" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop');">
+                                <div class="course-overlay"></div>
+                            </div>
+                            <div class="course-content">
+                                <h3>METODOLOGIA DE SISTEMAS I 2026</h3>
+                                <p class="prof"><i class="ph ph-user"></i> Prof. Systems</p>
+                                <div class="course-progress">
+                                    <div class="flex-between"><span>Progreso</span><span>60%</span></div>
+                                    <div class="progress-bar"><div class="fill" style="width: 60%; background: #ec4899;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 3: CLASSWORK -->
+                <section id="classwork" class="view-section">
+                    <div class="header-title">
+                        <h1>Gestor de Tareas</h1>
+                        <p>Lleva el control de tus trabajos y proyectos.</p>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="task-input-container">
+                            <div class="input-wrapper">
+                                <i class="ph ph-plus-circle"></i>
+                                <input type="text" id="taskInput" placeholder="¿Qué necesitas hacer?">
+                            </div>
+                            <button class="btn-primary" onclick="addTask()">Añadir Tarea</button>
+                        </div>
+                        
+                        <div class="task-list" id="taskList">
+                            <div class="task-item">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <span class="task-text">Grabar presentación en video para Inglés II</span>
+                                </label>
+                                <span class="badge priority-high">Alta</span>
+                            </div>
+                            <div class="task-item">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <span class="task-text">Terminar proyecto de Programación III</span>
+                                </label>
+                                <span class="badge" style="background: #3b82f6;">Media</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 4: SCHEDULE -->
+                <section id="schedule" class="view-section">
+                    <div class="header-title">
+                        <h1>Horario Semanal</h1>
+                        <p>Tus próximas clases y eventos.</p>
+                    </div>
+
+                    <div class="glass-card timeline">
+                        <div class="timeline-item">
+                            <div class="time">Lunes</div>
+                            <div class="event-card purple">
+                                <h4>PROGRAMACION III LUNES 2025</h4>
+                                <p><i class="ph ph-map-pin"></i> Lab A</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">Martes</div>
+                            <div class="event-card blue">
+                                <h4>Base de datos ll 2026</h4>
+                                <p><i class="ph ph-map-pin"></i> Auditorio 1</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">Miércoles</div>
+                            <div class="event-card purple">
+                                <h4>Programación III Miércoles 2025</h4>
+                                <p><i class="ph ph-map-pin"></i> Lab B</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">Jueves</div>
+                            <div class="event-card green">
+                                <h4>INGLES ll 2026</h4>
+                                <p><i class="ph ph-map-pin"></i> Sala 10</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">Viernes</div>
+                            <div class="event-card" style="border-left-color: #ec4899;">
+                                <h4>METODOLOGIA DE SISTEMAS I 2026</h4>
+                                <p><i class="ph ph-map-pin"></i> Sala 5</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 5: GRADEBOOK -->
+                <section id="grades" class="view-section">
+                    <div class="header-title">
+                        <h1>Calificaciones</h1>
+                        <p>Calcula tu estado final del semestre.</p>
+                    </div>
+
+                    <div class="glass-card calculator-card">
+                        <div class="input-group" style="margin-bottom: 20px;">
+                            <label>Seleccionar Curso</label>
+                            <div class="grade-input-wrapper">
+                                <i class="ph ph-books"></i>
+                                <select id="courseSelect" style="background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 1rem;">
+                                    <option style="color: black;" value="Base de datos ll 2026">Base de datos ll 2026</option>
+                                    <option style="color: black;" value="INGLES ll 2026">INGLES ll 2026</option>
+                                    <option style="color: black;" value="PROGRAMACION III">Programación III</option>
+                                    <option style="color: black;" value="METODOLOGIA DE SISTEMAS I 2026">Metodología de Sistemas I</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="calc-grid" id="gradesContainer">
+                            <div class="input-group grade-entry">
+                                <label>Nota 1</label>
+                                <div class="grade-input-wrapper">
+                                    <i class="ph ph-exam"></i>
+                                    <input type="number" class="grade-val" placeholder="1-10" min="1" max="10">
+                                </div>
+                            </div>
+                            <div class="input-group grade-entry">
+                                <label>Nota 2</label>
+                                <div class="grade-input-wrapper">
+                                    <i class="ph ph-exam"></i>
+                                    <input type="number" class="grade-val" placeholder="1-10" min="1" max="10">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary outline" onclick="addGradeInput()" style="width: 100%; margin-bottom: 15px; border-style: dashed; justify-content: center;">
+                            <i class="ph ph-plus"></i> Añadir Otra Nota
+                        </button>
+
+                        <button class="btn-primary" onclick="calculateGrades()" style="width: 100%; justify-content: center;">
+                            <i class="ph ph-calculator"></i> Calcular Nota Final
+                        </button>
+
+                        <div id="gradeResult" class="grade-result-box hidden">
+                            <h3 id="subjectResultName" style="color: var(--text-main); margin-bottom: 15px; font-weight: 600;">--</h3>
+                            <div class="score-circle">
+                                <h1 id="scoreDisplay">--</h1>
+                            </div>
+                            <h2 id="statusDisplay">--</h2>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 6: RESOURCES -->
+                <section id="resources" class="view-section">
+                    <div class="header-title">
+                        <h1>Recursos de Estudio</h1>
+                        <p>Tu biblioteca digital de materiales.</p>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="resource-card pdf">
+                            <div class="icon-box"><i class="ph-fill ph-file-pdf"></i></div>
+                            <div class="r-info">
+                                <h4>Resumen de Base de Datos II</h4>
+                                <p>1.2 MB • Subido el 20 de Mayo</p>
+                            </div>
+                            <button class="icon-btn"><i class="ph ph-download-simple"></i></button>
+                        </div>
+                        <div class="resource-card video">
+                            <div class="icon-box"><i class="ph-fill ph-video"></i></div>
+                            <div class="r-info">
+                                <h4>Tutorial de Programación III</h4>
+                                <p>45 mins • Subido el 22 de Mayo</p>
+                            </div>
+                            <button class="icon-btn"><i class="ph ph-play"></i></button>
+                        </div>
+                        <div class="resource-card doc">
+                            <div class="icon-box"><i class="ph-fill ph-file-text"></i></div>
+                            <div class="r-info">
+                                <h4>Apuntes de Metodología</h4>
+                                <p>Leer los requerimientos</p>
+                            </div>
+                            <button class="icon-btn"><i class="ph ph-download-simple"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 7: TIMER -->
+                <section id="timer" class="view-section">
+                    <div class="header-title">
+                        <h1>Temporizador de Enfoque</h1>
+                        <p>Aumenta tu productividad con la técnica Pomodoro.</p>
+                    </div>
+
+                    <div class="glass-card timer-wrapper">
+                        <div class="timer-ring">
+                            <h1 id="timeDisplay">25:00</h1>
+                            <p>Tiempo de Sesión</p>
+                        </div>
+                        <div class="timer-controls">
+                            <button class="btn-primary large" id="startTimerBtn" onclick="startTimer()">
+                                <i class="ph-fill ph-play-circle"></i> Iniciar Enfoque
+                            </button>
+                            <button class="btn-secondary" onclick="resetTimer()" style="background: transparent; color: white; border: 1px solid white; padding: 12px 24px; border-radius: 12px; cursor: pointer;">
+                                <i class="ph ph-arrow-counter-clockwise"></i> Reiniciar
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 8: JOBS -->
+                <section id="jobs" class="view-section">
+                    <div class="header-title">
+                        <h1>El Portal de Chamba</h1>
+                        <p>Pasantías y trabajos exclusivos para universitarios.</p>
+                    </div>
+
+                    <div class="jobs-list">
+                        <div class="glass-card job-card">
+                            <div class="job-company-logo">
+                                <i class="ph-fill ph-google-logo"></i>
+                            </div>
+                            <div class="job-info">
+                                <h3>Pasante de Programador Junior</h3>
+                                <p>Tech Innovations • Remoto</p>
+                                <div class="job-tags">
+                                    <span class="tag">Medio tiempo</span>
+                                    <span class="tag">Programación</span>
+                                </div>
+                            </div>
+                            <button class="btn-primary outline">Postularse</button>
+                        </div>
+
+                        <div class="glass-card job-card">
+                            <div class="job-company-logo" style="background: #e11d48; color: white;">
+                                <i class="ph-fill ph-database"></i>
+                            </div>
+                            <div class="job-info">
+                                <h3>Administrador de Base de Datos Junior</h3>
+                                <p>DataCorp • Híbrido</p>
+                                <div class="job-tags">
+                                    <span class="tag">Tiempo completo</span>
+                                    <span class="tag">SQL</span>
+                                </div>
+                            </div>
+                            <button class="btn-primary outline">Postularse</button>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- SECTION 9: PROFILE -->
+                <section id="profile" class="view-section">
+                    <div class="header-title">
+                        <h1>Mi Perfil</h1>
+                        <p>Gestiona tu cuenta y configuración.</p>
+                    </div>
+
+                    <div class="glass-card" style="max-width: 500px;">
+                        <h2 class="card-title">Configuración de la Cuenta</h2>
+                        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+                            <button class="btn-primary outline" onclick="logout()" style="width: 100%; justify-content: center;">
+                                <i class="ph ph-sign-out"></i> Cerrar Sesión
+                            </button>
+                            <button class="btn-primary" onclick="deleteAccount()" style="width: 100%; justify-content: center; background: var(--accent-4); border-color: var(--accent-4);">
+                                <i class="ph ph-trash"></i> Eliminar Mi Cuenta
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
