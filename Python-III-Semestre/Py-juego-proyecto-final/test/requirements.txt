@@ -1,0 +1,6 @@
+# Pygame Community Edition: misma API (se importa como "pygame"),
+# con soporte para Python 3.14.
+pygame-ce>=2.5
+
+# Driver de PostgreSQL (se usa a partir de la fase 3).
+psycopg[binary]>=3.2
